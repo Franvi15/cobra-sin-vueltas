@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import LegalShell from "@/components/LegalShell";
-export const metadata: Metadata = { title: "Terms of Use", description: "Terms for using Chase Invoice / Cobrá Sin Vueltas and the Late Payment Rescue Pack.", alternates: { canonical: "/terms" } };
+export const metadata: Metadata = { title: "Terms of Use", description: "Terms for using Chase Invoice and the Late Payment Rescue Pack.", alternates: { canonical: "/terms" } };
 export default function Page() {
   return (
     <LegalShell title="Terms of Use" updated="October 30, 2026">
-      <p>These terms apply to this website and to the Late Payment Rescue Pack, operated by Franco Vidal (<a href="https://franvimarketing.com">franvimarketing.com</a>). Contact: <a href="mailto:hello@franvimarketing.com">hello@franvimarketing.com</a>.</p>
+      <p>These terms apply to Chase Invoice (including its Spanish edition, Cobrá Sin Vueltas) and to the Late Payment Rescue Pack, operated by Franco Vidal (<a href="https://franvimarketing.com">franvimarketing.com</a>). Contact: <a href="mailto:hello@franvimarketing.com">hello@franvimarketing.com</a>.</p>
       <h2>The free tool and templates</h2>
       <p>You may use the generator and the free templates for any lawful purpose, including commercially for your own business. Review every email before sending it; you are responsible for what you send.</p>
       <h2>Not legal advice</h2>

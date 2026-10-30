@@ -3,19 +3,26 @@ import { GUMROAD_URL, PACK_PRICE, SITE_URL, CONTACT_EMAIL } from "@/lib/site";
 import Header from "./Header";
 import Footer from "./Footer";
 import Waitlist from "./Waitlist";
+import Link from "next/link";
 
-const FILES: [string, string, string][] = [
-  ["01", "01-Guide-Get-Paid-On-Time.pdf", "92 KB"],
-  ["02", "02-Templates/ (12 files, .md)", "9 KB"],
-  ["02", "02-Templates-EN-ES.pdf", "95 KB"],
-  ["03", "03-Freelance-Contract-EN.docx", "38 KB"],
-  ["03", "03-Contrato-Freelance-ES.docx", "38 KB"],
-  ["04", "04-Late-Payment-Clauses-EN-ES.docx", "38 KB"],
-  ["05", "05-Final-Notice-Letter-EN-ES.docx", "37 KB"],
-  ["06", "06-Payment-Tracker.csv", "1 KB"],
-  ["", "README.md", "2 KB"],
-  ["", "LICENSE.txt", "1 KB"],
+const FILES: [string, string, string][] = [  // [kind, filename, size]
+  ["PDF", "Guide-Get-Paid-On-Time.pdf", "126 KB"],
+  ["MD", "Templates/ (12 files, .md)", "9 KB"],
+  ["PDF", "Templates-EN-ES.pdf", "128 KB"],
+  ["DOCX", "Freelance-Contract-EN.docx", "69 KB"],
+  ["DOCX", "Contrato-Freelance-ES.docx", "69 KB"],
+  ["DOCX", "Late-Payment-Clauses-EN-ES.docx", "69 KB"],
+  ["DOCX", "Final-Notice-Letter-EN-ES.docx", "69 KB"],
+  ["CSV", "Payment-Tracker.csv", "1 KB"],
+  ["MD", "README.md", "2 KB"],
+  ["TXT", "LICENSE.txt", "1 KB"],
 ];
+
+
+const ITEM_TAGS = {
+  en: ["PDF guide", "Emails", "Contract", "Clauses", "Letter", "Tracker"],
+  es: ["Guía PDF", "Mails", "Contrato", "Cláusulas", "Carta", "Planilla"],
+} as const;
 
 const C = {
   en: {
@@ -25,7 +32,7 @@ const C = {
     buy: `Buy the pack, USD ${PACK_PRICE}`,
     secure: "Checkout by Gumroad. Files download right after payment.",
     inside: "What's in the folder",
-    zip: "ZIP, 21 files, 351 KB",
+    zip: "ZIP, 21 files, 493 KB",
     items: [
       ["Guide: get paid on time", "8 sections, EN and ES. What to settle before the work starts, what goes on the invoice, the day +3, +7, +14 and +30 schedule, a phone script, and when to stop chasing."],
       ["12 collection emails", "6 EN, 6 ES: reminder, follow-up, firm request with late fee, payment plan, late fee notice, final notice. Editable .md files plus one printable PDF."],
@@ -52,7 +59,7 @@ const C = {
     buy: `Comprar el pack, USD ${PACK_PRICE}`,
     secure: "Pago por Gumroad. La descarga queda disponible apenas se acredita.",
     inside: "Qué hay en la carpeta",
-    zip: "ZIP, 21 archivos, 351 KB",
+    zip: "ZIP, 21 archivos, 493 KB",
     items: [
       ["Guía para cobrar a tiempo", "8 secciones, ES y EN. Qué dejar firmado antes de empezar, qué tiene que decir la factura, el calendario de los días +3, +7, +14 y +30, un guion para llamar y cuándo dejar de perseguir."],
       ["12 mails de cobranza", "6 ES, 6 EN: recordatorio, seguimiento, pedido firme con recargo, plan de pagos, aviso de recargo y último aviso. Archivos .md editables y un PDF para imprimir."],
@@ -92,83 +99,108 @@ export default function PackPage({ lang }: { lang: Lang }) {
       hasMerchantReturnPolicy: { "@type": "MerchantReturnPolicy", merchantReturnDays: 14, returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow" },
     },
   };
-  const BuyBlock = () =>
+  const BuyBlock = ({ inverted = false }: { inverted?: boolean }) =>
     GUMROAD_URL ? (
       <div>
-        <a href={GUMROAD_URL} className="inline-block bg-accent px-7 py-4 font-mono text-xs uppercase tracking-[0.16em] text-paper hover:bg-ink" data-gumroad-overlay-checkout="true">
+        <a href={GUMROAD_URL} className={inverted ? "btn h-12 bg-white px-6 text-[15px] text-brand-dark hover:bg-canvas" : "btn-primary h-12 px-6 text-[15px]"} data-gumroad-overlay-checkout="true">
           {c.buy}
         </a>
-        <p className="mt-3 font-mono text-[11px] uppercase tracking-widest text-muted">{c.secure}</p>
+        <p className={`mt-3 text-[13px] ${inverted ? "text-white/70" : "text-ink-3"}`}>{c.secure}</p>
       </div>
     ) : (
-      <Waitlist lang={lang} />
+      <Waitlist lang={lang} inverted={inverted} />
     );
+  const es = lang === "es";
 
   return (
     <div lang={lang}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Header lang={lang} altHref={lang === "es" ? "/pack" : "/es/pack"} />
-      <main className="mx-auto max-w-6xl px-5">
-        <section className="grid gap-10 pb-12 pt-14 md:grid-cols-[3fr_2fr] md:pt-20">
+      <Header lang={lang} altHref={es ? "/pack" : "/es/pack"} />
+      <main>
+        <section className="container-x grid gap-12 pb-16 pt-14 md:pt-20 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-accent">{c.kicker}</p>
-            <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.02] tracking-tight md:text-6xl">{c.title}</h1>
-            <p className="mt-6 max-w-xl text-lg md:text-xl">{c.lead}</p>
-            <div className="mt-8 max-w-lg"><BuyBlock /></div>
+            <nav aria-label="Breadcrumb" className="text-[13px] text-ink-3">
+              <Link href={es ? "/es" : "/"} className="hover:text-ink">{es ? "Cobrá Sin Vueltas" : "Chase Invoice"}</Link>
+              <span className="mx-2" aria-hidden>/</span><span className="text-ink-2">{c.kicker}</span>
+            </nav>
+            <h1 className="mt-5 max-w-[18ch] text-[40px] font-semibold leading-[1.05] tracking-display sm:text-[52px]">{c.title}</h1>
+            <p className="mt-6 max-w-[56ch] text-[17px] leading-[1.65] text-ink-2">{c.lead}</p>
+            <div className="mt-6 flex items-baseline gap-2">
+              <span className="text-[32px] font-semibold tracking-heading tabular-nums">USD {PACK_PRICE}</span>
+              <span className="text-[14px] text-ink-3">{es ? "pago único" : "one-time"}</span>
+            </div>
+            <div className="mt-6 max-w-md"><BuyBlock /></div>
           </div>
-          <figure className="self-start border border-ink bg-[#FBF8F2] font-mono text-[12px]" aria-label={c.inside}>
-            <figcaption className="flex justify-between border-b border-ink px-4 py-2.5 uppercase tracking-[0.14em]">
-              <span>Late-Payment-Rescue-Pack/</span><span className="text-muted">{c.zip}</span>
+          <figure className="card self-start overflow-hidden" aria-label={c.inside}>
+            <figcaption className="flex items-center justify-between gap-3 border-b border-line bg-well/60 px-5 py-3">
+              <span className="flex items-center gap-2 text-[14px] font-medium">
+                <svg aria-hidden width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4.25C2 3.56 2.56 3 3.25 3h3.1l1.4 1.5h5c.69 0 1.25.56 1.25 1.25v6c0 .69-.56 1.25-1.25 1.25h-9.5C2.56 13 2 12.44 2 11.75v-7.5z" stroke="#0F766E" strokeWidth="1.4" /></svg>
+                Late-Payment-Rescue-Pack
+              </span>
+              <span className="text-[12px] text-ink-3">{c.zip}</span>
             </figcaption>
-            <table className="w-full tabular-nums">
-              <tbody>
-                {FILES.map(([n, f, size]) => (
-                  <tr key={f} className="border-t border-rule first:border-t-0">
-                    <td className="w-8 py-2 pl-4 text-accent">{n}</td>
-                    <td className="py-2 pr-2 break-all">{f}</td>
-                    <td className="whitespace-nowrap py-2 pr-4 text-right text-muted">{size}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <ul className="divide-y divide-line">
+              {FILES.map(([k, f, size]) => (
+                <li key={f} className="flex items-center gap-3 px-5 py-2.5 text-[14px]">
+                  <span className="inline-flex h-5 w-11 shrink-0 items-center justify-center rounded border border-line bg-well text-[10.5px] font-semibold text-ink-2">{k}</span>
+                  <span className="min-w-0 flex-1 truncate text-ink">{f}</span>
+                  <span className="shrink-0 text-[13px] tabular-nums text-ink-3">{size}</span>
+                </li>
+              ))}
+            </ul>
           </figure>
         </section>
 
-        <section className="border-t-2 border-ink pt-10">
-          <h2 className="font-display text-3xl font-semibold">{c.inside}</h2>
-          <ol className="mt-8 grid gap-x-10 md:grid-cols-2">
+        <section className="container-x">
+          <div className="border-b border-line pb-6">
+            <h2 className="text-[28px] font-semibold tracking-heading sm:text-[32px]">{c.inside}</h2>
+          </div>
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {c.items.map(([h, p], i) => (
-              <li key={h} className="flex gap-5 border-t border-rule py-6">
-                <span className="pt-1 font-mono text-sm tabular-nums text-accent">{String(i + 1).padStart(2, "0")}</span>
-                <div><h3 className="text-lg font-semibold">{h}</h3><p className="mt-2 text-muted">{p}</p></div>
+              <li key={h} className="rounded-xl border border-line bg-surface p-6">
+                <span className="badge border-line-strong bg-well text-ink-2">{ITEM_TAGS[lang][i]}</span>
+                <h3 className="mt-4 text-[17px] font-semibold tracking-heading">{h}</h3>
+                <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{p}</p>
               </li>
             ))}
-          </ol>
+          </ul>
         </section>
 
-        <section className="mt-16 grid gap-10 md:grid-cols-[2fr_1fr]">
+        <section className="container-x mt-24 grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:gap-16">
           <div>
-            <h2 className="font-display text-3xl font-semibold">{c.faqTitle}</h2>
-            <div className="mt-6 border-t-2 border-ink">
+            <h2 className="text-[28px] font-semibold tracking-heading sm:text-[32px]">{c.faqTitle}</h2>
+            <div className="mt-6 divide-y divide-line rounded-xl border border-line bg-surface">
               {c.faq.map(([q, a]) => (
-                <details key={q} className="group border-b border-rule py-5">
-                  <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold">
-                    {q}<span className="font-mono text-accent transition group-open:rotate-45">+</span>
+                <details key={q} className="group px-5 py-4 sm:px-6">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[16px] font-medium [&::-webkit-details-marker]:hidden">
+                    {q}
+                    <svg aria-hidden className="shrink-0 text-ink-3 transition group-open:rotate-180" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   </summary>
-                  <p className="mt-3 text-muted">{a}</p>
+                  <p className="mt-3 text-[15px] leading-relaxed text-ink-2">{a}</p>
                 </details>
               ))}
             </div>
           </div>
-          <aside className="self-start bg-olive p-8 text-paper">
-            <p className="font-display text-6xl font-semibold tabular-nums">14</p>
-            <h3 className="mt-2 font-mono text-xs uppercase tracking-widest">{c.guarantee}</h3>
-            <p className="mt-4 text-paper/85">{c.guaranteeBody}</p>
+          <aside className="self-start rounded-xl border border-line bg-surface p-6 lg:mt-[60px]">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-soft" aria-hidden>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2.5l6 2.25v4.5c0 3.9-2.6 6.9-6 8.25-3.4-1.35-6-4.35-6-8.25v-4.5L10 2.5z" stroke="#0F766E" strokeWidth="1.5" strokeLinejoin="round" /><path d="M7.25 10l2 2 3.5-4" stroke="#0F766E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </span>
+            <h3 className="mt-4 text-[17px] font-semibold">{c.guarantee}</h3>
+            <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{c.guaranteeBody}</p>
           </aside>
         </section>
 
-        <section className="mt-16 border-y-2 border-ink py-10">
-          <div className="max-w-lg"><BuyBlock /></div>
+        <section className="container-x mt-24">
+          <div className="relative overflow-hidden rounded-2xl bg-brand-dark px-6 py-10 text-white sm:px-10 sm:py-12">
+            <div className="absolute inset-x-0 top-0 h-1 bg-coral" aria-hidden />
+            <div className="grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-center">
+              <div>
+                <p className="text-[13px] font-medium text-white/70">{c.kicker}, USD {PACK_PRICE}</p>
+                <h2 className="mt-3 max-w-[24ch] text-[26px] font-semibold leading-tight tracking-heading sm:text-[30px]">{c.title}</h2>
+              </div>
+              <BuyBlock inverted />
+            </div>
+          </div>
         </section>
       </main>
       <Footer lang={lang} />

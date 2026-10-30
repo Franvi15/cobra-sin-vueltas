@@ -5,17 +5,18 @@ import { t } from "@/lib/i18n";
 export default function PackCta({ lang }: { lang: Lang }) {
   const d = t(lang);
   return (
-    <section className="mx-auto mt-24 max-w-6xl px-5">
-      <div className="grid gap-8 border-y-2 border-ink py-10 md:grid-cols-12">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent md:col-span-3">{d.cta.kicker}</p>
-        <div className="md:col-span-6">
-          <h2 className="font-display text-3xl font-bold leading-tight md:text-4xl">{d.cta.title}</h2>
-          <p className="mt-4 text-ink/80">{d.cta.body}</p>
-        </div>
-        <div className="md:col-span-3 md:self-end md:text-right">
-          <Link href={d.pack} className="inline-block border-2 border-ink bg-ink px-5 py-3 font-mono text-xs uppercase tracking-[0.14em] text-paper hover:border-accent hover:bg-accent">
-            {d.cta.button}
-          </Link>
+    <section className="container-x mt-24">
+      <div className="relative overflow-hidden rounded-2xl bg-brand-dark px-6 py-10 text-white sm:px-10 sm:py-12">
+        <div className="absolute inset-x-0 top-0 h-1 bg-coral" aria-hidden />
+        <div className="grid gap-8 md:grid-cols-[1.6fr_1fr] md:items-end">
+          <div>
+            <p className="text-[13px] font-medium text-white/70">{d.cta.kicker}</p>
+            <h2 className="mt-3 max-w-[22ch] text-[26px] font-semibold leading-tight tracking-heading sm:text-[32px]">{d.cta.title}</h2>
+            <p className="mt-4 max-w-[62ch] text-[15px] leading-relaxed text-white/80">{d.cta.body}</p>
+          </div>
+          <div className="md:text-right">
+            <Link href={d.pack} className="btn h-11 bg-white px-5 text-brand-dark hover:bg-canvas">{d.cta.button}</Link>
+          </div>
         </div>
       </div>
     </section>

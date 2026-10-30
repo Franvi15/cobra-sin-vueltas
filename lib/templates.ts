@@ -11,11 +11,17 @@ export interface Template {
   subject: string;
   body: string;
   tips: string[];
+  /** collection stage in days after due date, if any */
+  stage?: number;
+  /** short card title */
+  name: string;
 }
 
 export const templates: Template[] = [
   {
     slug: "polite-payment-reminder-email",
+    name: "Payment reminder",
+    stage: 3,
     lang: "en",
     alt: "recordatorio-de-pago-factura-vencida",
     title: "Polite Payment Reminder Email: Free Template",
@@ -44,6 +50,8 @@ Thanks,
   },
   {
     slug: "overdue-invoice-follow-up-email",
+    name: "Follow-up",
+    stage: 7,
     lang: "en",
     alt: "seguimiento-factura-impaga",
     title: "Overdue Invoice Follow-Up Email Template",
@@ -67,6 +75,8 @@ If something is holding up approval (PO number, billing entity, tax details), te
   },
   {
     slug: "firm-payment-request-email",
+    name: "Firm payment request",
+    stage: 14,
     lang: "en",
     alt: "mail-firme-para-cobrar-factura",
     title: "Firm Payment Request Email for Freelancers",
@@ -92,6 +102,8 @@ If cash flow is the issue, propose two installments in writing and I'll consider
   },
   {
     slug: "final-notice-before-collections",
+    name: "Final notice",
+    stage: 30,
     lang: "en",
     alt: "ultimo-aviso-antes-de-acciones-legales",
     title: "Final Notice Before Collections: Email Template",
@@ -126,6 +138,7 @@ Pay to: [BANK / PAYMENT LINK]
   },
   {
     slug: "late-payment-fee-notice-email",
+    name: "Late fee notice",
     lang: "en",
     alt: "aviso-recargo-por-mora",
     title: "Late Payment Fee Notice Email Template",
@@ -149,6 +162,8 @@ If the original [AMOUNT] is paid in full by [DATE], I'll remove the fee. This is
   },
   {
     slug: "recordatorio-de-pago-factura-vencida",
+    name: "Recordatorio de pago",
+    stage: 3,
     lang: "es",
     alt: "polite-payment-reminder-email",
     title: "Recordatorio de pago de factura vencida: plantilla gratis",
@@ -177,6 +192,8 @@ Gracias,
   },
   {
     slug: "seguimiento-factura-impaga",
+    name: "Seguimiento",
+    stage: 7,
     lang: "es",
     alt: "overdue-invoice-follow-up-email",
     title: "Mail de seguimiento por factura impaga",
@@ -200,6 +217,8 @@ Si algo traba la aprobación (orden de compra, razón social, datos fiscales), a
   },
   {
     slug: "mail-firme-para-cobrar-factura",
+    name: "Pedido firme de pago",
+    stage: 14,
     lang: "es",
     alt: "firm-payment-request-email",
     title: "Mail firme para cobrar una factura atrasada",
@@ -225,6 +244,8 @@ Si el problema es de caja, mandame por escrito una propuesta en dos cuotas y la 
   },
   {
     slug: "ultimo-aviso-antes-de-acciones-legales",
+    name: "Último aviso",
+    stage: 30,
     lang: "es",
     alt: "final-notice-before-collections",
     title: "Último aviso de pago antes de acciones legales",
@@ -259,6 +280,7 @@ Cuenta: [CBU / ALIAS / LINK DE PAGO]
   },
   {
     slug: "aviso-recargo-por-mora",
+    name: "Aviso de recargo por mora",
     lang: "es",
     alt: "late-payment-fee-notice-email",
     title: "Aviso de recargo por mora: plantilla de mail",

@@ -1,22 +1,25 @@
 import Link from "next/link";
 import type { Lang } from "@/lib/site";
 import { t } from "@/lib/i18n";
+import Logo from "./Logo";
 
 export default function Header({ lang, altHref }: { lang: Lang; altHref?: string }) {
   const d = t(lang);
-  const tplHref = lang === "es" ? "/templates/recordatorio-de-pago-factura-vencida" : "/templates/polite-payment-reminder-email";
+  const es = lang === "es";
   return (
-    <header className="border-b border-ink">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
-        <Link href={d.home} className="group flex items-baseline gap-2">
-          <span className="font-display text-2xl font-semibold tracking-tight">{lang === "es" ? "Cobrá Sin Vueltas" : "Chase Invoice"}</span>
+    <header className="sticky top-0 z-30 border-b border-line bg-canvas/85 backdrop-blur-md supports-[backdrop-filter]:bg-canvas/75">
+      <div className="container-x flex h-16 items-center justify-between gap-4">
+        <Link href={d.home} aria-label={es ? "Cobrá Sin Vueltas, inicio" : "Chase Invoice, home"} className="rounded-md">
+          <Logo name={es ? "Cobrá Sin Vueltas" : "Chase Invoice"} sub={es ? "por Chase Invoice" : undefined} />
         </Link>
-        <nav className="flex items-center gap-4 font-mono text-[11px] uppercase tracking-widest sm:gap-6">
-          <Link href={d.home} className="hidden hover:text-accent sm:inline">{d.nav.tool}</Link>
-          <Link href={tplHref} className="hidden hover:text-accent md:inline">{d.nav.templates}</Link>
-          <Link href={d.pack} className="hover:text-accent">{d.nav.pack}</Link>
-          <Link href={altHref ?? d.other} hrefLang={lang === "es" ? "en" : "es"} className="border border-ink px-2 py-1 hover:bg-ink hover:text-paper">
-            {lang === "es" ? "EN" : "ES"}
+        <nav aria-label="Main" className="flex items-center gap-1 text-[14px]">
+          <Link href={`${d.home}#generator`} className="btn-ghost hidden h-9 px-3 sm:inline-flex">{d.nav.tool}</Link>
+          <Link href={`${d.home}#templates`} className="btn-ghost hidden h-9 px-3 md:inline-flex">{d.nav.templates}</Link>
+          <Link href={d.pack} className="btn-ghost h-9 px-3">{d.nav.pack}</Link>
+          <span className="mx-1 hidden h-5 w-px bg-line sm:block" aria-hidden />
+          <Link href={altHref ?? d.other} hrefLang={es ? "en" : "es"} lang={es ? "en" : "es"}
+            className="inline-flex h-8 items-center rounded-md border border-line-strong bg-surface px-2.5 text-[13px] font-medium text-ink-2 hover:border-ink-3 hover:text-ink">
+            {es ? "English" : "Español"}
           </Link>
         </nav>
       </div>
