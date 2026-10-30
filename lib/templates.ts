@@ -317,3 +317,5 @@ Si el monto original de [MONTO] se acredita completo antes del [FECHA], saco el 
 
 export const allTemplates: Template[] = [...templates, ...longtail];
 export const getTemplate = (slug: string) => allTemplates.find((t) => t.slug === slug);
+export const longtailEn = () => longtail.filter((t) => t.lang === "en");
+export const guides = (lang: Lang) => longtail.filter((t) => t.lang === lang);

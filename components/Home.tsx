@@ -10,7 +10,7 @@ import PackSales from "./PackSales";
 import Reveal from "./Reveal";
 import StickyBuy from "./StickyBuy";
 import Link from "next/link";
-import { templates } from "@/lib/templates";
+import { templates, guides, tplPath } from "@/lib/templates";
 import { CHECKOUT_URL } from "@/lib/site";
 
 export default function Home({ lang }: { lang: Lang }) {
@@ -131,6 +131,19 @@ export default function Home({ lang }: { lang: Lang }) {
                 </a>
               </li>
             )}
+          </ul>
+        </section>
+
+        <section className="container-x mt-20" aria-labelledby="guides-h">
+          <h2 id="guides-h" className="text-[22px] font-semibold tracking-heading">{lang === "es" ? "Guías y plantillas por situación" : "Guides and templates by situation"}</h2>
+          <ul className="mt-6 grid gap-x-8 border-t border-line sm:grid-cols-2 lg:grid-cols-3">
+            {guides(lang).map((g) => (
+              <li key={g.slug} className="border-b border-line">
+                <Link href={tplPath(g)} className="group flex items-center justify-between gap-3 py-3.5 text-[15px] text-ink transition-colors hover:text-brand">
+                  <span>{g.name}</span><span aria-hidden className="text-ink-3 transition-transform group-hover:translate-x-1 group-hover:text-brand">&rarr;</span>
+                </Link>
+              </li>
+            ))}
           </ul>
         </section>
 

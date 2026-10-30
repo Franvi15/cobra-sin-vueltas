@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
-import { templates } from "@/lib/templates";
+import { templates, longtailEn, tplPath, getTemplate } from "@/lib/templates";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...pair("/", "/es", 1),
     ...pair("/pack", "/es/pack", 0.9),
     ...templates.filter((t) => t.lang === "en").flatMap((t) => pair(`/templates/${t.slug}`, `/templates/${t.alt}`, 0.7)),
+    ...longtailEn().flatMap((t) => pair(tplPath(t), tplPath(getTemplate(t.alt)!), 0.6)),
     { url: `${SITE_URL}/privacy`, lastModified: now, priority: 0.2 },
     { url: `${SITE_URL}/terms`, lastModified: now, priority: 0.2 },
   ];

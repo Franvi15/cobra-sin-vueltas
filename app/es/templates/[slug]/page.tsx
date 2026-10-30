@@ -20,7 +20,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const en = lang === "en" ? self : op;
   const es = tpl.lang === "es" ? self : op;
   return {
-    title: tpl.title,
+    title: tpl.lang === "es" ? { absolute: `${tpl.title} | Cobrá Sin Vueltas` } : tpl.title,
     description: tpl.description,
     alternates: alternates(en, es, tpl.lang),
     openGraph: { title: tpl.title, description: tpl.description, locale: tpl.lang === "es" ? "es_AR" : "en_US", type: "article" },
