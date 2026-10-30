@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Lang } from "@/lib/site";
+import { CHECKOUT_URL, type Lang } from "@/lib/site";
 import { t } from "@/lib/i18n";
 
 export default function PackCta({ lang }: { lang: Lang }) {
@@ -14,8 +14,9 @@ export default function PackCta({ lang }: { lang: Lang }) {
             <h2 className="mt-3 max-w-[22ch] text-[26px] font-semibold leading-tight tracking-heading sm:text-[32px]">{d.cta.title}</h2>
             <p className="mt-4 max-w-[62ch] text-[15px] leading-relaxed text-white/80">{d.cta.body}</p>
           </div>
-          <div className="md:text-right">
-            <Link href={d.pack} className="btn h-11 bg-white px-5 text-brand-dark hover:bg-canvas">{d.cta.button}</Link>
+          <div className="flex flex-wrap gap-3 md:justify-end">
+            <a href={CHECKOUT_URL} className="btn h-11 bg-white px-5 text-brand-dark hover:bg-canvas">{d.cta.buy}</a>
+            <Link href={d.pack} className="btn h-11 border border-white/30 px-5 text-white hover:bg-white/10">{d.cta.button}</Link>
           </div>
         </div>
       </div>

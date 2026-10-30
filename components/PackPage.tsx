@@ -1,8 +1,7 @@
 import type { Lang } from "@/lib/site";
-import { GUMROAD_URL, PACK_PRICE, SITE_URL, CONTACT_EMAIL } from "@/lib/site";
+import { CHECKOUT_URL, PACK_PRICE, SITE_URL, CONTACT_EMAIL } from "@/lib/site";
 import Header from "./Header";
 import Footer from "./Footer";
-import Waitlist from "./Waitlist";
 import Link from "next/link";
 
 const FILES: [string, string, string][] = [  // [kind, filename, size]
@@ -30,7 +29,7 @@ const C = {
     title: "The paperwork that gets invoices paid.",
     lead: "Contract, late-fee clauses, 12 collection emails, a final notice letter and a tracker. The same documents a collections desk works from, written for freelancers. English and Spanish.",
     buy: `Buy the pack, USD ${PACK_PRICE}`,
-    secure: "Checkout by Gumroad. Files download right after payment.",
+    secure: "Secure checkout by Payhip. Files download right after payment.",
     inside: "What's in the folder",
     zip: "ZIP, 21 files, 493 KB",
     items: [
@@ -57,7 +56,7 @@ const C = {
     title: "Los papeles que hacen que te paguen.",
     lead: "Contrato, cláusulas de mora, 12 mails de cobranza, carta de último aviso y planilla de seguimiento. Los mismos documentos con los que trabaja un área de cobranzas, adaptados a freelancers. En español y en inglés.",
     buy: `Comprar el pack, USD ${PACK_PRICE}`,
-    secure: "Pago por Gumroad. La descarga queda disponible apenas se acredita.",
+    secure: "Pago seguro por Payhip. La descarga queda disponible apenas se acredita.",
     inside: "Qué hay en la carpeta",
     zip: "ZIP, 21 archivos, 493 KB",
     items: [
@@ -94,22 +93,19 @@ export default function PackPage({ lang }: { lang: Lang }) {
     url,
     offers: {
       "@type": "Offer", price: PACK_PRICE.toFixed(2), priceCurrency: "USD",
-      availability: GUMROAD_URL ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
-      url: GUMROAD_URL || url,
+      availability: "https://schema.org/InStock",
+      url: CHECKOUT_URL,
       hasMerchantReturnPolicy: { "@type": "MerchantReturnPolicy", merchantReturnDays: 14, returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow" },
     },
   };
-  const BuyBlock = ({ inverted = false }: { inverted?: boolean }) =>
-    GUMROAD_URL ? (
-      <div>
-        <a href={GUMROAD_URL} className={inverted ? "btn h-12 bg-white px-6 text-[15px] text-brand-dark hover:bg-canvas" : "btn-primary h-12 px-6 text-[15px]"} data-gumroad-overlay-checkout="true">
-          {c.buy}
-        </a>
-        <p className={`mt-3 text-[13px] ${inverted ? "text-white/70" : "text-ink-3"}`}>{c.secure}</p>
-      </div>
-    ) : (
-      <Waitlist lang={lang} inverted={inverted} />
-    );
+  const BuyBlock = ({ inverted = false }: { inverted?: boolean }) => (
+    <div>
+      <a href={CHECKOUT_URL} className={inverted ? "btn h-12 bg-white px-6 text-[15px] text-brand-dark hover:bg-canvas" : "btn-primary h-12 px-6 text-[15px]"}>
+        {c.buy}
+      </a>
+      <p className={`mt-3 text-[13px] ${inverted ? "text-white/70" : "text-ink-3"}`}>{c.secure}</p>
+    </div>
+  );
   const es = lang === "es";
 
   return (

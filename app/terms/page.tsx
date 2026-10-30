@@ -11,7 +11,7 @@ export default function Page() {
       <p>Everything on this site and in the pack is general information, not legal, tax or financial advice. Laws on late fees, interest and debt collection vary by country and state. For significant amounts, consult a qualified professional in your jurisdiction.</p>
       <h2>The paid pack</h2>
       <ul>
-        <li>Price: USD 19, one-time, processed by Gumroad.</li>
+        <li>Price: USD 19, one-time, processed by Payhip.</li>
         <li>License: personal use for your own freelance or small business. You may edit the files and use them with your own clients. You may not resell, redistribute, or publish the files or substantial parts of them.</li>
         <li>Refunds: if you’re not satisfied, email us within 14 days of purchase for a full refund.</li>
       </ul>
