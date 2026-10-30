@@ -3,6 +3,11 @@ import { CHECKOUT_URL, PACK_PRICE, SITE_URL, CONTACT_EMAIL } from "@/lib/site";
 import Header from "./Header";
 import Footer from "./Footer";
 import Link from "next/link";
+import PackSales, { BuyBox } from "./PackSales";
+import DocStack from "./DocStack";
+import Reveal from "./Reveal";
+import StickyBuy from "./StickyBuy";
+import { copy } from "@/lib/copy";
 
 const FILES: [string, string, string][] = [  // [kind, filename, size]
   ["PDF", "Guide-Get-Paid-On-Time.pdf", "126 KB"],
@@ -99,92 +104,88 @@ export default function PackPage({ lang }: { lang: Lang }) {
     },
   };
   const es = lang === "es";
-  const Buy = () => (
-    <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-      <a href={CHECKOUT_URL} className="btn-primary h-11 px-5">{c.buy}</a>
-      <p className="text-[13px] text-ink-3">{c.secure}</p>
-    </div>
-  );
+  const k = copy[lang];
+  const SPAN = ["sm:col-span-2 lg:col-span-4", "lg:col-span-2", "lg:col-span-2", "lg:col-span-2", "lg:col-span-2", "sm:col-span-2 lg:col-span-2"];
 
   return (
     <div lang={lang}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: c.faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }) }} />
       <Header lang={lang} altHref={es ? "/pack" : "/es/pack"} />
       <main>
-        <section className="container-x pb-20 pt-12 sm:pb-28 sm:pt-16">
-          <nav aria-label="Breadcrumb" className="text-[13px] text-ink-3">
-            <Link href={es ? "/es" : "/"} className="hover:text-ink">{es ? "Cobrá Sin Vueltas" : "Chase Invoice"}</Link>
-            <span className="mx-2" aria-hidden>/</span><span>{c.kicker}</span>
-          </nav>
-          <h1 className="h-display mt-14 max-w-[15ch] text-[44px] sm:mt-20 sm:text-[68px] lg:text-[80px]">{c.title}</h1>
-          <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-20">
-            <p className="max-w-[56ch] text-[17px] leading-[1.7] text-ink-2 sm:text-[18px]">{c.lead}</p>
-            <div className="lg:justify-self-end lg:text-right">
-              <p className="text-[40px] font-medium tracking-display tabular-nums text-ink">USD {PACK_PRICE}</p>
-              <p className="mt-1 text-[13px] text-ink-3">{es ? "Pago único" : "One-time payment"}</p>
+        <section className="relative overflow-hidden bg-night text-white">
+          <div className="bg-grid-dark pointer-events-none absolute inset-0" aria-hidden />
+          <div className="container-x relative pb-20 pt-10 sm:pb-28 sm:pt-14">
+            <nav aria-label="Breadcrumb" className="text-[13px] text-white/50">
+              <Link href={es ? "/es" : "/"} className="hover:text-white">{es ? "Cobrá Sin Vueltas" : "Chase Invoice"}</Link>
+              <span className="mx-2" aria-hidden>/</span><span className="text-white/80">{c.kicker}</span>
+            </nav>
+            <div className="mt-10 grid gap-14 lg:grid-cols-[1.15fr_1fr] lg:items-center">
+              <div>
+                <p className="label-dark">{c.kicker}</p>
+                <h1 className="h-display mt-4 max-w-[15ch] text-[42px] sm:text-[60px]">{c.title}</h1>
+                <p className="mt-6 max-w-[56ch] text-[17px] leading-[1.7] text-white/70">{c.lead}</p>
+                <div className="mt-10 max-w-md"><BuyBox lang={lang} /></div>
+              </div>
+              <DocStack lang={lang} />
             </div>
           </div>
-          <div className="mt-12"><Buy /></div>
         </section>
 
-        <section className="container-x">
-          <div className="section grid gap-6 lg:grid-cols-[1fr_1fr] lg:gap-20">
+        <section className="container-x mt-24 sm:mt-28">
+          <Reveal className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
             <h2 className="h-section">{c.inside}</h2>
-            <p className="text-[14px] tabular-nums text-ink-3 lg:pt-4 lg:text-right">Late-Payment-Rescue-Pack.zip, {c.zip}</p>
-          </div>
-          <ul className="mt-14 border-t border-line sm:mt-16">
+            <p className="text-[14px] tabular-nums text-ink-3">Late-Payment-Rescue-Pack.zip, {c.zip}</p>
+          </Reveal>
+          <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
             {c.items.map(([h, p], i) => (
-              <li key={h} className="grid gap-2 border-b border-line py-8 sm:grid-cols-[120px_minmax(0,1fr)_minmax(0,1.6fr)] sm:gap-8">
-                <span className="text-[13px] text-ink-3">{ITEM_TAGS[lang][i]}</span>
-                <h3 className="text-[18px] font-medium tracking-heading text-ink">{h}</h3>
-                <p className="text-[15px] leading-[1.7] text-ink-2">{p}</p>
-              </li>
+              <Reveal as="li" key={h} delay={(i % 3) * 80} className={`rounded-2xl border p-7 ${i === 0 ? "border-night bg-night text-white" : "border-line bg-white shadow-card"} ${SPAN[i]}`}>
+                <p className={`text-[12.5px] font-semibold ${i === 0 ? "text-brand-mint" : "text-brand"}`}>{ITEM_TAGS[lang][i]}</p>
+                <h3 className={`mt-3 font-semibold tracking-heading ${i === 0 ? "text-[26px]" : "text-[19px]"}`}>{h}</h3>
+                <p className={`mt-2 text-[15px] leading-relaxed ${i === 0 ? "max-w-[60ch] text-white/70" : "text-ink-2"}`}>{p}</p>
+              </Reveal>
             ))}
           </ul>
-          <table className="mt-14 w-full text-[14px]">
-            <caption className="label pb-4 text-left">{es ? "Archivos" : "Files"}</caption>
-            <tbody className="divide-y divide-line border-y border-line">
-              {FILES.map(([k, f, size]) => (
-                <tr key={f}>
-                  <td className="w-16 py-3 text-[13px] text-ink-3">{k}</td>
-                  <td className="py-3 text-ink-2"><span className="break-all">{f}</span></td>
-                  <td className="py-3 text-right tabular-nums text-ink-3">{size}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
-
-        <section className="container-x mt-32 sm:mt-40">
-          <div className="section grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
-            <div>
-              <h2 className="h-section">{c.faqTitle}</h2>
-              <p className="mt-10 text-[15px] font-medium text-ink">{c.guarantee}</p>
-              <p className="mt-2 max-w-[44ch] text-[15px] leading-[1.7] text-ink-2">{c.guaranteeBody}</p>
+          <div className="mt-6 overflow-hidden rounded-2xl border border-line bg-white">
+            <div className="flex items-center justify-between border-b border-line bg-well/60 px-5 py-3 text-[13px]">
+              <span className="font-semibold">{es ? "Archivos incluidos" : "Files included"}</span>
+              <span className="text-ink-3">{c.zip}</span>
             </div>
-            <div className="border-t border-line">
-              {c.faq.map(([q, a]) => (
-                <details key={q} className="group border-b border-line py-6">
-                  <summary className="flex cursor-pointer list-none items-baseline justify-between gap-6 text-[17px] font-medium tracking-heading text-ink [&::-webkit-details-marker]:hidden">
-                    {q}
-                    <span aria-hidden className="shrink-0 text-[18px] font-normal text-ink-3 transition-transform group-open:rotate-45">+</span>
-                  </summary>
-                  <p className="mt-4 max-w-[60ch] text-[15px] leading-[1.7] text-ink-2">{a}</p>
-                </details>
+            <ul className="grid divide-y divide-line sm:grid-cols-2 sm:divide-y-0">
+              {FILES.map(([kd, f, size]) => (
+                <li key={f} className="flex items-center gap-3 border-line px-5 py-3 text-[14px] sm:border-b">
+                  <span className={`w-11 shrink-0 rounded px-1.5 py-0.5 text-center text-[10.5px] font-bold ${kd === "PDF" ? "bg-coral-soft text-coral-ink" : kd === "DOCX" ? "bg-[#E8EEFB] text-[#2B5DCC]" : "bg-brand-soft text-brand"}`}>{kd}</span>
+                  <span className="min-w-0 flex-1 truncate">{f}</span>
+                  <span className="shrink-0 text-[12.5px] tabular-nums text-ink-3">{size}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
 
-        <section className="container-x mt-32 sm:mt-40">
-          <div className="section">
-            <p className="label">{c.kicker}, USD {PACK_PRICE}</p>
-            <h2 className="h-section mt-4 max-w-[20ch]">{c.title}</h2>
-            <div className="mt-10"><Buy /></div>
+        <section className="container-x mt-24 grid gap-12 sm:mt-28 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
+          <Reveal>
+            <h2 className="h-section">{c.faqTitle}</h2>
+            <p className="mt-4 max-w-[40ch] text-[16px] leading-relaxed text-ink-2">{c.guaranteeBody}</p>
+            <a href={CHECKOUT_URL} className="btn-buy mt-8">{k.buy}</a>
+          </Reveal>
+          <div className="divide-y divide-line rounded-2xl border border-line bg-white">
+            {c.faq.map(([q, a]) => (
+              <details key={q} className="group px-6 py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[16.5px] font-semibold tracking-heading [&::-webkit-details-marker]:hidden">
+                  {q}
+                  <span aria-hidden className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-well text-ink-2 transition group-open:rotate-45 group-open:bg-night group-open:text-white">+</span>
+                </summary>
+                <p className="mt-3 text-[15px] leading-relaxed text-ink-2">{a}</p>
+              </details>
+            ))}
           </div>
         </section>
+
+        <PackSales lang={lang} showLink={false} />
       </main>
       <Footer lang={lang} />
+      <StickyBuy label={k.buy} note={k.sticky} />
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { longtail } from "./longtail";
 import type { Lang } from "./site";
 
 export interface Template {
@@ -15,7 +16,17 @@ export interface Template {
   stage?: number;
   /** short card title */
   name: string;
+  /** long-tail extras */
+  longtail?: boolean;
+  intro?: string;
+  variant?: { label: string; subject: string; body: string };
+  mistakes?: string[];
+  faq?: [string, string][];
 }
+
+export const tplPath = (t: Pick<Template, "lang" | "slug" | "longtail">) =>
+  t.lang === "es" && t.longtail ? `/es/templates/${t.slug}` : `/templates/${t.slug}`;
+
 
 export const templates: Template[] = [
   {
@@ -304,4 +315,5 @@ Si el monto original de [MONTO] se acredita completo antes del [FECHA], saco el 
   },
 ];
 
-export const getTemplate = (slug: string) => templates.find((t) => t.slug === slug);
+export const allTemplates: Template[] = [...templates, ...longtail];
+export const getTemplate = (slug: string) => allTemplates.find((t) => t.slug === slug);

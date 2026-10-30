@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-export default function CopyButton({ text, label, copiedLabel, className = "link text-[14px]" }: { text: string; label: string; copiedLabel: string; className?: string }) {
+export default function CopyButton({ text, label, copiedLabel, className = "btn-primary" }: { text: string; label: string; copiedLabel: string; className?: string }) {
   const [done, setDone] = useState(false);
   async function copy() {
     try {

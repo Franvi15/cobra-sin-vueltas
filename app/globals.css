@@ -2,29 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-html { -webkit-text-size-adjust: 100%; text-rendering: optimizeLegibility; }
+html { -webkit-text-size-adjust: 100%; text-rendering: optimizeLegibility; scroll-behavior: smooth; }
 body { @apply bg-canvas text-ink font-sans antialiased; font-feature-settings: "ss01", "cv11"; }
-::selection { background: #D9EAE7; color: #191917; }
+::selection { background: #99F6E4; color: #071F1C; }
 a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
-:focus-visible { outline: 2px solid #0F766E; outline-offset: 3px; border-radius: 4px; }
+:focus-visible { outline: 2px solid #2DD4BF; outline-offset: 3px; border-radius: 6px; }
 
 @layer components {
-  .container-x { @apply mx-auto w-full max-w-content px-6 sm:px-10; }
-  .btn { @apply inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md px-4 text-[14px] font-medium transition-colors duration-150 disabled:opacity-50; }
-  .btn-primary { @apply btn bg-brand text-white hover:bg-brand-dark; }
-  .btn-secondary { @apply btn border border-line-strong text-ink hover:border-ink; }
-  .btn-ghost { @apply btn text-ink-2 hover:text-ink; }
+  .container-x { @apply mx-auto w-full max-w-content px-5 sm:px-8; }
+  .btn { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-medium transition duration-150 disabled:opacity-50; }
+  .btn-primary { @apply btn h-11 bg-brand px-5 text-[15px] text-white shadow-[0_1px_0_rgba(255,255,255,0.2)_inset,0_8px_20px_-8px_rgba(15,118,110,0.6)] hover:bg-brand-dark active:translate-y-px; }
+  .btn-buy { @apply btn h-14 bg-coral px-7 text-[17px] font-semibold text-night shadow-cta hover:bg-[#FA8569] active:translate-y-px; }
+  .btn-light { @apply btn h-11 bg-white px-5 text-[15px] text-night hover:bg-brand-soft active:translate-y-px; }
+  .btn-secondary { @apply btn h-11 border border-line-strong bg-surface px-5 text-[15px] text-ink hover:border-ink; }
+  .btn-glass { @apply btn h-11 border border-white/15 bg-white/5 px-5 text-[15px] text-white backdrop-blur hover:bg-white/10; }
   .link { @apply text-ink underline decoration-line-strong underline-offset-[5px] transition-colors hover:decoration-ink; }
   .link-brand { @apply font-medium text-brand underline decoration-brand/30 underline-offset-[5px] hover:decoration-brand; }
-  .label { @apply text-[13px] text-ink-3; }
-  .field-label { @apply block text-[13px] text-ink-2; }
-  .field { @apply mt-2 block h-11 w-full rounded-md border border-line-strong bg-transparent px-3 text-[15px] text-ink transition-colors placeholder:text-ink-3/70 hover:border-ink-3 focus:border-ink focus:outline-none; }
-  .h-display { @apply font-medium leading-[1.02] tracking-display text-ink; }
-  .h-section { @apply text-[30px] font-medium leading-[1.1] tracking-heading text-ink sm:text-[40px]; }
-  .section { @apply border-t border-line pt-16 sm:pt-24; }
+  .label { @apply text-[13px] font-medium uppercase tracking-[0.08em] text-ink-3; }
+  .label-dark { @apply text-[13px] font-medium uppercase tracking-[0.08em] text-brand-mint/70; }
+  .field-label { @apply block text-[13px] font-medium text-ink-2; }
+  .field { @apply mt-1.5 block h-11 w-full rounded-lg border border-line-strong bg-white px-3 text-[15px] text-ink shadow-[0_1px_2px_rgba(25,25,23,0.04)] transition placeholder:text-ink-3/70 hover:border-ink-3 focus:border-brand focus:outline-none focus:ring-4 focus:ring-brand/15; }
+  .h-display { @apply font-semibold leading-[1.02] tracking-display; }
+  .h-section { @apply text-[32px] font-semibold leading-[1.08] tracking-heading text-ink sm:text-[44px]; }
   .prose-legal { @apply space-y-5 text-[16px] leading-[1.75] text-ink-2; }
   .prose-legal h2 { @apply mt-12 text-[20px] font-medium tracking-heading text-ink; }
   .prose-legal a { @apply text-ink underline decoration-line-strong underline-offset-4 hover:decoration-ink; }
   .prose-legal ul { @apply list-disc space-y-2 pl-5 marker:text-ink-3; }
   .prose-legal strong { @apply font-medium text-ink; }
+  .bg-grid-dark {
+    background-image: linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 40%, transparent 100%);
+  }
+  .bg-grid-light {
+    background-image: linear-gradient(rgba(25,25,23,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(25,25,23,0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 100%);
+  }
+  .marquee-mask { mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.is-in { opacity: 1; transform: none; }
+  .pause-hover:hover .marquee-track { animation-play-state: paused; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  .reveal { opacity: 1; transform: none; }
+  .marquee-track { animation: none !important; transform: none !important; }
 }
