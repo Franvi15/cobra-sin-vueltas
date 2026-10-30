@@ -5,18 +5,17 @@ import { t } from "@/lib/i18n";
 export default function PackCta({ lang }: { lang: Lang }) {
   const d = t(lang);
   return (
-    <section className="container-x mt-24">
-      <div className="relative overflow-hidden rounded-2xl bg-brand-dark px-6 py-10 text-white sm:px-10 sm:py-12">
-        <div className="absolute inset-x-0 top-0 h-1 bg-coral" aria-hidden />
-        <div className="grid gap-8 md:grid-cols-[1.6fr_1fr] md:items-end">
-          <div>
-            <p className="text-[13px] font-medium text-white/70">{d.cta.kicker}</p>
-            <h2 className="mt-3 max-w-[22ch] text-[26px] font-semibold leading-tight tracking-heading sm:text-[32px]">{d.cta.title}</h2>
-            <p className="mt-4 max-w-[62ch] text-[15px] leading-relaxed text-white/80">{d.cta.body}</p>
-          </div>
-          <div className="flex flex-wrap gap-3 md:justify-end">
-            <a href={CHECKOUT_URL} className="btn h-11 bg-white px-5 text-brand-dark hover:bg-canvas">{d.cta.buy}</a>
-            <Link href={d.pack} className="btn h-11 border border-white/30 px-5 text-white hover:bg-white/10">{d.cta.button}</Link>
+    <section className="container-x mt-32 sm:mt-40">
+      <div className="section grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-20">
+        <div>
+          <p className="label">{d.cta.kicker}</p>
+          <h2 className="h-section mt-4 max-w-[18ch]">{d.cta.title}</h2>
+        </div>
+        <div className="lg:pt-9">
+          <p className="max-w-[56ch] text-[16px] leading-[1.7] text-ink-2">{d.cta.body}</p>
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <a href={CHECKOUT_URL} className="btn-primary h-11 px-5">{d.cta.buy}</a>
+            <Link href={d.pack} className="link text-[14px]">{d.cta.button}</Link>
           </div>
         </div>
       </div>

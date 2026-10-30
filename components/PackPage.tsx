@@ -98,104 +98,89 @@ export default function PackPage({ lang }: { lang: Lang }) {
       hasMerchantReturnPolicy: { "@type": "MerchantReturnPolicy", merchantReturnDays: 14, returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow" },
     },
   };
-  const BuyBlock = ({ inverted = false }: { inverted?: boolean }) => (
-    <div>
-      <a href={CHECKOUT_URL} className={inverted ? "btn h-12 bg-white px-6 text-[15px] text-brand-dark hover:bg-canvas" : "btn-primary h-12 px-6 text-[15px]"}>
-        {c.buy}
-      </a>
-      <p className={`mt-3 text-[13px] ${inverted ? "text-white/70" : "text-ink-3"}`}>{c.secure}</p>
+  const es = lang === "es";
+  const Buy = () => (
+    <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+      <a href={CHECKOUT_URL} className="btn-primary h-11 px-5">{c.buy}</a>
+      <p className="text-[13px] text-ink-3">{c.secure}</p>
     </div>
   );
-  const es = lang === "es";
 
   return (
     <div lang={lang}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header lang={lang} altHref={es ? "/pack" : "/es/pack"} />
       <main>
-        <section className="container-x grid gap-12 pb-16 pt-14 md:pt-20 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-          <div>
-            <nav aria-label="Breadcrumb" className="text-[13px] text-ink-3">
-              <Link href={es ? "/es" : "/"} className="hover:text-ink">{es ? "Cobrá Sin Vueltas" : "Chase Invoice"}</Link>
-              <span className="mx-2" aria-hidden>/</span><span className="text-ink-2">{c.kicker}</span>
-            </nav>
-            <h1 className="mt-5 max-w-[18ch] text-[40px] font-semibold leading-[1.05] tracking-display sm:text-[52px]">{c.title}</h1>
-            <p className="mt-6 max-w-[56ch] text-[17px] leading-[1.65] text-ink-2">{c.lead}</p>
-            <div className="mt-6 flex items-baseline gap-2">
-              <span className="text-[32px] font-semibold tracking-heading tabular-nums">USD {PACK_PRICE}</span>
-              <span className="text-[14px] text-ink-3">{es ? "pago único" : "one-time"}</span>
+        <section className="container-x pb-20 pt-12 sm:pb-28 sm:pt-16">
+          <nav aria-label="Breadcrumb" className="text-[13px] text-ink-3">
+            <Link href={es ? "/es" : "/"} className="hover:text-ink">{es ? "Cobrá Sin Vueltas" : "Chase Invoice"}</Link>
+            <span className="mx-2" aria-hidden>/</span><span>{c.kicker}</span>
+          </nav>
+          <h1 className="h-display mt-14 max-w-[15ch] text-[44px] sm:mt-20 sm:text-[68px] lg:text-[80px]">{c.title}</h1>
+          <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-20">
+            <p className="max-w-[56ch] text-[17px] leading-[1.7] text-ink-2 sm:text-[18px]">{c.lead}</p>
+            <div className="lg:justify-self-end lg:text-right">
+              <p className="text-[40px] font-medium tracking-display tabular-nums text-ink">USD {PACK_PRICE}</p>
+              <p className="mt-1 text-[13px] text-ink-3">{es ? "Pago único" : "One-time payment"}</p>
             </div>
-            <div className="mt-6 max-w-md"><BuyBlock /></div>
           </div>
-          <figure className="card self-start overflow-hidden" aria-label={c.inside}>
-            <figcaption className="flex items-center justify-between gap-3 border-b border-line bg-well/60 px-5 py-3">
-              <span className="flex items-center gap-2 text-[14px] font-medium">
-                <svg aria-hidden width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4.25C2 3.56 2.56 3 3.25 3h3.1l1.4 1.5h5c.69 0 1.25.56 1.25 1.25v6c0 .69-.56 1.25-1.25 1.25h-9.5C2.56 13 2 12.44 2 11.75v-7.5z" stroke="#0F766E" strokeWidth="1.4" /></svg>
-                Late-Payment-Rescue-Pack
-              </span>
-              <span className="text-[12px] text-ink-3">{c.zip}</span>
-            </figcaption>
-            <ul className="divide-y divide-line">
-              {FILES.map(([k, f, size]) => (
-                <li key={f} className="flex items-center gap-3 px-5 py-2.5 text-[14px]">
-                  <span className="inline-flex h-5 w-11 shrink-0 items-center justify-center rounded border border-line bg-well text-[10.5px] font-semibold text-ink-2">{k}</span>
-                  <span className="min-w-0 flex-1 truncate text-ink">{f}</span>
-                  <span className="shrink-0 text-[13px] tabular-nums text-ink-3">{size}</span>
-                </li>
-              ))}
-            </ul>
-          </figure>
+          <div className="mt-12"><Buy /></div>
         </section>
 
         <section className="container-x">
-          <div className="border-b border-line pb-6">
-            <h2 className="text-[28px] font-semibold tracking-heading sm:text-[32px]">{c.inside}</h2>
+          <div className="section grid gap-6 lg:grid-cols-[1fr_1fr] lg:gap-20">
+            <h2 className="h-section">{c.inside}</h2>
+            <p className="text-[14px] tabular-nums text-ink-3 lg:pt-4 lg:text-right">Late-Payment-Rescue-Pack.zip, {c.zip}</p>
           </div>
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-14 border-t border-line sm:mt-16">
             {c.items.map(([h, p], i) => (
-              <li key={h} className="rounded-xl border border-line bg-surface p-6">
-                <span className="badge border-line-strong bg-well text-ink-2">{ITEM_TAGS[lang][i]}</span>
-                <h3 className="mt-4 text-[17px] font-semibold tracking-heading">{h}</h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{p}</p>
+              <li key={h} className="grid gap-2 border-b border-line py-8 sm:grid-cols-[120px_minmax(0,1fr)_minmax(0,1.6fr)] sm:gap-8">
+                <span className="text-[13px] text-ink-3">{ITEM_TAGS[lang][i]}</span>
+                <h3 className="text-[18px] font-medium tracking-heading text-ink">{h}</h3>
+                <p className="text-[15px] leading-[1.7] text-ink-2">{p}</p>
               </li>
             ))}
           </ul>
+          <table className="mt-14 w-full text-[14px]">
+            <caption className="label pb-4 text-left">{es ? "Archivos" : "Files"}</caption>
+            <tbody className="divide-y divide-line border-y border-line">
+              {FILES.map(([k, f, size]) => (
+                <tr key={f}>
+                  <td className="w-16 py-3 text-[13px] text-ink-3">{k}</td>
+                  <td className="py-3 text-ink-2"><span className="break-all">{f}</span></td>
+                  <td className="py-3 text-right tabular-nums text-ink-3">{size}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </section>
 
-        <section className="container-x mt-24 grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:gap-16">
-          <div>
-            <h2 className="text-[28px] font-semibold tracking-heading sm:text-[32px]">{c.faqTitle}</h2>
-            <div className="mt-6 divide-y divide-line rounded-xl border border-line bg-surface">
+        <section className="container-x mt-32 sm:mt-40">
+          <div className="section grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
+            <div>
+              <h2 className="h-section">{c.faqTitle}</h2>
+              <p className="mt-10 text-[15px] font-medium text-ink">{c.guarantee}</p>
+              <p className="mt-2 max-w-[44ch] text-[15px] leading-[1.7] text-ink-2">{c.guaranteeBody}</p>
+            </div>
+            <div className="border-t border-line">
               {c.faq.map(([q, a]) => (
-                <details key={q} className="group px-5 py-4 sm:px-6">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[16px] font-medium [&::-webkit-details-marker]:hidden">
+                <details key={q} className="group border-b border-line py-6">
+                  <summary className="flex cursor-pointer list-none items-baseline justify-between gap-6 text-[17px] font-medium tracking-heading text-ink [&::-webkit-details-marker]:hidden">
                     {q}
-                    <svg aria-hidden className="shrink-0 text-ink-3 transition group-open:rotate-180" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    <span aria-hidden className="shrink-0 text-[18px] font-normal text-ink-3 transition-transform group-open:rotate-45">+</span>
                   </summary>
-                  <p className="mt-3 text-[15px] leading-relaxed text-ink-2">{a}</p>
+                  <p className="mt-4 max-w-[60ch] text-[15px] leading-[1.7] text-ink-2">{a}</p>
                 </details>
               ))}
             </div>
           </div>
-          <aside className="self-start rounded-xl border border-line bg-surface p-6 lg:mt-[60px]">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-soft" aria-hidden>
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2.5l6 2.25v4.5c0 3.9-2.6 6.9-6 8.25-3.4-1.35-6-4.35-6-8.25v-4.5L10 2.5z" stroke="#0F766E" strokeWidth="1.5" strokeLinejoin="round" /><path d="M7.25 10l2 2 3.5-4" stroke="#0F766E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </span>
-            <h3 className="mt-4 text-[17px] font-semibold">{c.guarantee}</h3>
-            <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{c.guaranteeBody}</p>
-          </aside>
         </section>
 
-        <section className="container-x mt-24">
-          <div className="relative overflow-hidden rounded-2xl bg-brand-dark px-6 py-10 text-white sm:px-10 sm:py-12">
-            <div className="absolute inset-x-0 top-0 h-1 bg-coral" aria-hidden />
-            <div className="grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-center">
-              <div>
-                <p className="text-[13px] font-medium text-white/70">{c.kicker}, USD {PACK_PRICE}</p>
-                <h2 className="mt-3 max-w-[24ch] text-[26px] font-semibold leading-tight tracking-heading sm:text-[30px]">{c.title}</h2>
-              </div>
-              <BuyBlock inverted />
-            </div>
+        <section className="container-x mt-32 sm:mt-40">
+          <div className="section">
+            <p className="label">{c.kicker}, USD {PACK_PRICE}</p>
+            <h2 className="h-section mt-4 max-w-[20ch]">{c.title}</h2>
+            <div className="mt-10"><Buy /></div>
           </div>
         </section>
       </main>

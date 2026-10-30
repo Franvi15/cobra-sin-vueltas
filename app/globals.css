@@ -4,24 +4,27 @@
 
 html { -webkit-text-size-adjust: 100%; text-rendering: optimizeLegibility; }
 body { @apply bg-canvas text-ink font-sans antialiased; font-feature-settings: "ss01", "cv11"; }
-::selection { background: #CDE6E2; color: #191917; }
+::selection { background: #D9EAE7; color: #191917; }
 a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
-:focus-visible { outline: 2px solid #0F766E; outline-offset: 2px; border-radius: 6px; }
+:focus-visible { outline: 2px solid #0F766E; outline-offset: 3px; border-radius: 4px; }
 
 @layer components {
-  .container-x { @apply mx-auto w-full max-w-content px-5 sm:px-8; }
-  .btn { @apply inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-lg px-4 text-[14px] font-medium transition-colors duration-150 disabled:opacity-50; }
-  .btn-primary { @apply btn bg-brand text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] hover:bg-brand-dark; }
-  .btn-secondary { @apply btn border border-line-strong bg-surface text-ink hover:border-ink-3 hover:bg-well; }
-  .btn-ghost { @apply btn text-ink-2 hover:bg-well hover:text-ink; }
-  .field-label { @apply block text-[13px] font-medium text-ink; }
-  .field { @apply mt-1.5 block h-10 w-full rounded-lg border border-line-strong bg-surface px-3 text-[15px] text-ink shadow-[0_1px_1px_rgba(25,25,23,0.03)] transition placeholder:text-ink-3 hover:border-ink-3 focus:border-brand focus:outline-none focus:ring-4 focus:ring-brand/15; }
-  .card { @apply rounded-xl border border-line bg-surface shadow-card; }
-  .eyebrow { @apply inline-flex items-center gap-2 text-[13px] font-medium text-brand; }
-  .badge { @apply inline-flex h-6 items-center rounded-full border px-2.5 text-[12px] font-medium tabular-nums; }
-  .prose-legal { @apply space-y-5 text-[16px] leading-[1.7] text-ink-2; }
-  .prose-legal h2 { @apply mt-10 text-[20px] font-semibold tracking-heading text-ink; }
-  .prose-legal a { @apply font-medium text-brand underline decoration-brand/30 underline-offset-4 hover:decoration-brand; }
-  .prose-legal ul { @apply list-disc space-y-2 pl-5; }
-  .prose-legal strong { @apply text-ink; }
+  .container-x { @apply mx-auto w-full max-w-content px-6 sm:px-10; }
+  .btn { @apply inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md px-4 text-[14px] font-medium transition-colors duration-150 disabled:opacity-50; }
+  .btn-primary { @apply btn bg-brand text-white hover:bg-brand-dark; }
+  .btn-secondary { @apply btn border border-line-strong text-ink hover:border-ink; }
+  .btn-ghost { @apply btn text-ink-2 hover:text-ink; }
+  .link { @apply text-ink underline decoration-line-strong underline-offset-[5px] transition-colors hover:decoration-ink; }
+  .link-brand { @apply font-medium text-brand underline decoration-brand/30 underline-offset-[5px] hover:decoration-brand; }
+  .label { @apply text-[13px] text-ink-3; }
+  .field-label { @apply block text-[13px] text-ink-2; }
+  .field { @apply mt-2 block h-11 w-full rounded-md border border-line-strong bg-transparent px-3 text-[15px] text-ink transition-colors placeholder:text-ink-3/70 hover:border-ink-3 focus:border-ink focus:outline-none; }
+  .h-display { @apply font-medium leading-[1.02] tracking-display text-ink; }
+  .h-section { @apply text-[30px] font-medium leading-[1.1] tracking-heading text-ink sm:text-[40px]; }
+  .section { @apply border-t border-line pt-16 sm:pt-24; }
+  .prose-legal { @apply space-y-5 text-[16px] leading-[1.75] text-ink-2; }
+  .prose-legal h2 { @apply mt-12 text-[20px] font-medium tracking-heading text-ink; }
+  .prose-legal a { @apply text-ink underline decoration-line-strong underline-offset-4 hover:decoration-ink; }
+  .prose-legal ul { @apply list-disc space-y-2 pl-5 marker:text-ink-3; }
+  .prose-legal strong { @apply font-medium text-ink; }
 }

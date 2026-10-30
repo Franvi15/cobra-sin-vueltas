@@ -1,4 +1,4 @@
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://cobrasinvueltas.com").replace(/\/$/, "");
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://chase-invoice.vercel.app").replace(/\/$/, "");
 export const CHECKOUT_URL = process.env.NEXT_PUBLIC_CHECKOUT_URL || "https://payhip.com/b/iuXDm";
 export const CONTACT_EMAIL = "hello@franvimarketing.com";
 export const OPERATOR = "Franco Vidal";
