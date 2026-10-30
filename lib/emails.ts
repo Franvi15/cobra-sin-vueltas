@@ -9,10 +9,13 @@ export interface EmailInput {
   dueDate: string; // yyyy-mm-dd
   yourName: string;
   tone: Tone;
+  paymentDetails?: string;
+  lateFee?: string;
 }
 export interface GeneratedEmail {
   offset: number;
   sendDate: string;
+  sendIso: string;
   subject: string;
   body: string;
 }
@@ -33,6 +36,9 @@ export function formatDate(d: Date, lang: Lang): string {
     day: "numeric", month: "long", year: "numeric",
   }).format(d);
 }
+function isoOf(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
 export function formatMoney(amount: number, currency: string, lang: Lang): string {
   try {
     return new Intl.NumberFormat(lang === "es" ? "es-AR" : "en-US", {
@@ -43,149 +49,159 @@ export function formatMoney(amount: number, currency: string, lang: Lang): strin
   }
 }
 
-type Ctx = { c: string; n: string; a: string; due: string; me: string; send: string; t: Tone };
+type Ctx = {
+  c: string; n: string; a: string; me: string; t: Tone; pay: string; fee: string;
+  due: string; d: (offset: number) => string;
+};
 type Stage = { subject: (x: Ctx) => string; body: (x: Ctx) => string };
-
 const pick = (t: Tone, f: string, m: string, h: string) => (t === "friendly" ? f : t === "firm" ? m : h);
+const lines = (...xs: (string | false)[]) => xs.filter((x) => x !== false).join("\n\n");
 
 const EN: Stage[] = [
   {
-    subject: (x) => `Quick reminder: invoice ${x.n}`,
-    body: (x) => `Hi ${x.c},
-
-${pick(x.t, "Hope you're having a good week!", "I'm following up on an open invoice.", "I'm writing about an overdue invoice that needs attention.")} Invoice ${x.n} for ${x.a} was due on ${x.due} and I haven't seen the payment come through yet.
-
-${pick(x.t, "It's probably just slipped through the cracks — it happens. ", "", "")}Could you confirm when it's scheduled to be paid? If anything is missing on your side (a PO number, a different billing address, a W-9), let me know and I'll send it right away.
-
-${pick(x.t, "Thanks so much!", "Thanks in advance,", "Regards,")}
-${x.me}`,
+    subject: (x) => `Invoice ${x.n}: payment reminder`,
+    body: (x) => lines(
+      `Hi ${x.c},`,
+      `Invoice ${x.n} for ${x.a} was due on ${x.due}. I don't have the payment on my side yet.`,
+      pick(x.t, "Probably an oversight, so here are the details again:", "Payment details:", "Payment details:") +
+        `\n\nAmount: ${x.a}\nReference: ${x.n}\nPay to: ${x.pay || "details on the invoice (attached again)"}`,
+      "If it has already gone out, send me the transfer date and I'll match it on my end.",
+      pick(x.t, `Thanks,\n${x.me}`, `Thanks,\n${x.me}`, x.me),
+    ),
   },
   {
-    subject: (x) => `Invoice ${x.n} — now 7 days overdue`,
-    body: (x) => `Hi ${x.c},
-
-Following up on invoice ${x.n} for ${x.a}, which was due on ${x.due} and is now one week past due.
-
-${pick(x.t,
-  "I know things get busy, so I wanted to make this easy: I've attached the invoice again. Could you let me know an expected payment date?",
-  "I'd appreciate a confirmed payment date by the end of this week. I've attached the invoice again for convenience.",
-  "Please confirm a payment date within 2 business days. The invoice is attached again for reference.")}
-
-If there's a problem with the invoice or the work, please tell me now so we can sort it out quickly.
-
-${pick(x.t, "Thanks!", "Best,", "Regards,")}
-${x.me}`,
+    subject: (x) => `Invoice ${x.n}: 7 days overdue`,
+    body: (x) => lines(
+      `Hi ${x.c},`,
+      `Invoice ${x.n} for ${x.a} is 7 days overdue (due ${x.due}). I wrote on ${x.d(3)} and haven't had a reply.`,
+      pick(x.t,
+        `Can you give me a payment date? A one-line reply by ${x.d(9)} is enough.`,
+        `I need a payment date. Please reply by ${x.d(9)} with the date the transfer goes out.`,
+        `Reply by ${x.d(9)} with a confirmed payment date.`),
+      "If something is holding up approval (PO number, billing entity, tax details), tell me and I'll reissue the invoice the same day.",
+      x.me,
+    ),
   },
   {
-    subject: (x) => `Overdue: invoice ${x.n} (${x.a}) — action needed`,
-    body: (x) => `Hi ${x.c},
-
-Invoice ${x.n} for ${x.a} is now two weeks overdue (due ${x.due}). I haven't received a payment or a reply to my previous messages.
-
-${pick(x.t,
-  "I'd really like to keep things simple between us. Could you please arrange payment, or reply with a date I can count on?",
-  "Please arrange payment within the next 7 days, or reply with a concrete payment date. Until the balance is settled, I'll need to pause any new work.",
-  "Payment is required within 7 days. Until the balance is settled, all work and deliverables are on hold, and late fees under our agreement may apply.")}
-
-If you need to split the payment into installments, I'm open to discussing it — just let me know today.
-
-${pick(x.t, "Thank you,", "Regards,", "Regards,")}
-${x.me}`,
+    subject: (x) => `Invoice ${x.n}: 14 days overdue, late fee applies`,
+    body: (x) => lines(
+      `Hi ${x.c},`,
+      `Invoice ${x.n} for ${x.a} is now 14 days overdue. I wrote on ${x.d(3)} and ${x.d(7)} and still don't have a payment date.`,
+      x.fee
+        ? `As set out in our agreement, a late fee of ${x.fee} applies to the balance from today.`
+        : "As set out in our agreement, the late fee applies to the balance from today.",
+      pick(x.t,
+        `If the full ${x.a} arrives by ${x.d(19)}, I'll waive the fee.`,
+        `If the full ${x.a} arrives by ${x.d(19)}, I'll waive the fee. After that it stays.`,
+        "The fee will not be waived."),
+      pick(x.t,
+        "I'm holding new work on the account until this is settled.",
+        "New work on the account is paused until the balance is cleared.",
+        "All work on the account is paused until the balance is cleared."),
+      "If cash flow is the issue, propose two installments in writing and I'll consider it.",
+      x.me,
+    ),
   },
   {
-    subject: (x) => `Final notice: invoice ${x.n} — ${x.a}`,
-    body: (x) => `Hi ${x.c},
-
-This is my final notice regarding invoice ${x.n} for ${x.a}, which was due on ${x.due} and is now 30 days overdue. I've reached out several times without resolution.
-
-${pick(x.t,
-  "I value our working relationship and would much rather settle this between us.",
-  "I want to resolve this directly and professionally.",
-  "I have no choice but to escalate this matter.")} If full payment is not received within 7 days of this email, I will ${pick(x.t, "need to consider next steps, including", "proceed with", "proceed with")} formal collection options, which may include applying the late fees in our agreement, a small-claims filing, or a collections agency.
-
-Please pay the outstanding balance or contact me today to agree on a payment plan.
-
-Regards,
-${x.me}`,
+    subject: (x) => `Final notice: invoice ${x.n}, ${x.a}`,
+    body: (x) => lines(
+      `Hi ${x.c},`,
+      pick(x.t,
+        `I've sent three reminders about invoice ${x.n} without an answer, so this is the final notice.`,
+        `This is the final notice for invoice ${x.n}.`,
+        `This is the final notice for invoice ${x.n}. There will not be another reminder.`),
+      `Amount: ${x.a}\nDue date: ${x.due}\nDays overdue: 30\nReminders sent: ${x.d(3)}, ${x.d(7)}, ${x.d(14)}`,
+      `Payment in full is due by ${x.d(37)}. If it has not arrived by then, I will:\n\n1. keep all work and deliverables on hold,\n2. add the late fees set out in our agreement, and\n3. pass the debt to a collections agency or file a small-claims claim.`,
+      `If you need to pay in installments, send a written proposal before ${x.d(37)}. After that date the full balance is due.`,
+      `Pay to: ${x.pay || "details on the attached invoice"}`,
+      x.me,
+    ),
   },
 ];
 
 const ES: Stage[] = [
   {
-    subject: (x) => `Recordatorio: factura ${x.n}`,
-    body: (x) => `Hola ${x.c},
-
-${pick(x.t, "¡Espero que estés muy bien!", "Te escribo por una factura pendiente.", "Te escribo por una factura vencida que necesita atención.")} La factura ${x.n} por ${x.a} venció el ${x.due} y todavía no me figura el pago.
-
-${pick(x.t, "Seguramente se pasó entre tantas cosas, pasa siempre. ", "", "")}¿Me confirmás para cuándo está programado? Si te falta algo de mi lado (datos de facturación, CUIT, orden de compra), avisame y te lo mando al toque.
-
-${pick(x.t, "¡Muchas gracias!", "Gracias de antemano,", "Saludos,")}
-${x.me}`,
+    subject: (x) => `Factura ${x.n}: recordatorio de pago`,
+    body: (x) => lines(
+      `Hola ${x.c},`,
+      `La factura ${x.n} por ${x.a} venció el ${x.due} y todavía no tengo el pago registrado.`,
+      pick(x.t, "Seguro se pasó, así que te dejo los datos de nuevo:", "Datos para el pago:", "Datos para el pago:") +
+        `\n\nMonto: ${x.a}\nReferencia: ${x.n}\nCuenta: ${x.pay || "los datos están en la factura (te la adjunto de nuevo)"}`,
+      "Si ya lo transferiste, pasame la fecha y lo busco en mi cuenta.",
+      pick(x.t, `Gracias,\n${x.me}`, `Gracias,\n${x.me}`, x.me),
+    ),
   },
   {
     subject: (x) => `Factura ${x.n}: 7 días vencida`,
-    body: (x) => `Hola ${x.c},
-
-Vuelvo sobre la factura ${x.n} por ${x.a}, que venció el ${x.due} y ya lleva una semana vencida.
-
-${pick(x.t,
-  "Sé que hay mucho movimiento, así que te la adjunto de nuevo para hacerlo fácil. ¿Me pasás una fecha estimada de pago?",
-  "Te pido que me confirmes una fecha de pago antes del fin de esta semana. Te adjunto la factura de nuevo.",
-  "Necesito que me confirmes la fecha de pago dentro de los próximos 2 días hábiles. Te adjunto la factura otra vez.")}
-
-Si hay algún problema con la factura o con el trabajo, decímelo ahora así lo resolvemos rápido.
-
-${pick(x.t, "¡Gracias!", "Saludos,", "Saludos,")}
-${x.me}`,
+    body: (x) => lines(
+      `Hola ${x.c},`,
+      `La factura ${x.n} por ${x.a} lleva 7 días vencida (vencía el ${x.due}). Te escribí el ${x.d(3)} y no tuve respuesta.`,
+      pick(x.t,
+        `¿Me pasás una fecha de pago? Con una línea antes del ${x.d(9)} me alcanza.`,
+        `Necesito una fecha de pago. Respondeme antes del ${x.d(9)} con el día en que sale la transferencia.`,
+        `Respondeme antes del ${x.d(9)} con una fecha de pago confirmada.`),
+      "Si algo traba la aprobación (orden de compra, razón social, datos fiscales), avisame y te rehago la factura en el día.",
+      x.me,
+    ),
   },
   {
-    subject: (x) => `Factura ${x.n} (${x.a}) vencida: necesito respuesta`,
-    body: (x) => `Hola ${x.c},
-
-La factura ${x.n} por ${x.a} ya lleva dos semanas vencida (venció el ${x.due}) y no recibí el pago ni respuesta a mis mensajes anteriores.
-
-${pick(x.t,
-  "Me gustaría que esto siga siendo simple entre nosotros. ¿Podés gestionar el pago o pasarme una fecha concreta?",
-  "Te pido que gestiones el pago dentro de los próximos 7 días o me confirmes una fecha concreta. Hasta que se regularice el saldo, voy a tener que pausar cualquier trabajo nuevo.",
-  "El pago tiene que hacerse dentro de los próximos 7 días. Hasta que se regularice, quedan en pausa todos los trabajos y entregas, y pueden aplicarse los recargos por mora de nuestro acuerdo.")}
-
-Si te sirve pagarlo en cuotas, lo podemos charlar: avisame hoy.
-
-${pick(x.t, "Gracias,", "Saludos,", "Saludos,")}
-${x.me}`,
+    subject: (x) => `Factura ${x.n}: 14 días vencida, corre el recargo`,
+    body: (x) => lines(
+      `Hola ${x.c},`,
+      `La factura ${x.n} por ${x.a} ya tiene 14 días de atraso. Te escribí el ${x.d(3)} y el ${x.d(7)}, y sigo sin fecha de pago.`,
+      x.fee
+        ? `Según nuestro acuerdo, desde hoy corre un recargo por mora de ${x.fee} sobre el saldo.`
+        : "Según nuestro acuerdo, desde hoy corre el recargo por mora sobre el saldo.",
+      pick(x.t,
+        `Si el total de ${x.a} entra antes del ${x.d(19)}, no te cobro el recargo.`,
+        `Si el total de ${x.a} entra antes del ${x.d(19)}, no te cobro el recargo. Después queda firme.`,
+        "El recargo no se bonifica."),
+      pick(x.t,
+        "Mientras tanto, freno los trabajos nuevos de la cuenta.",
+        "Los trabajos nuevos de la cuenta quedan en pausa hasta que se cancele el saldo.",
+        "Todos los trabajos de la cuenta quedan en pausa hasta que se cancele el saldo."),
+      "Si el problema es de caja, mandame por escrito una propuesta en dos cuotas y la evalúo.",
+      x.me,
+    ),
   },
   {
-    subject: (x) => `Último aviso: factura ${x.n} por ${x.a}`,
-    body: (x) => `Hola ${x.c},
-
-Este es mi último aviso por la factura ${x.n} por ${x.a}, vencida el ${x.due} y con 30 días de atraso. Te escribí varias veces sin obtener una solución.
-
-${pick(x.t,
-  "Valoro mucho que trabajemos juntos y prefiero resolverlo entre nosotros.",
-  "Quiero resolverlo de forma directa y profesional.",
-  "No me queda otra opción que escalar el tema.")} Si no recibo el pago total dentro de los 7 días de este correo, voy a ${pick(x.t, "tener que evaluar", "avanzar con", "avanzar con")} las vías formales de cobro, que pueden incluir los recargos por mora del acuerdo, una carta documento o una gestión de cobranza.
-
-Por favor, aboná el saldo o escribime hoy para acordar un plan de pagos.
-
-Saludos,
-${x.me}`,
+    subject: (x) => `Último aviso: factura ${x.n}, ${x.a}`,
+    body: (x) => lines(
+      `Hola ${x.c},`,
+      pick(x.t,
+        `Te mandé tres recordatorios por la factura ${x.n} sin respuesta, así que este es el último aviso.`,
+        `Este es el último aviso por la factura ${x.n}.`,
+        `Este es el último aviso por la factura ${x.n}. No va a haber otro recordatorio.`),
+      `Monto: ${x.a}\nVencimiento: ${x.due}\nDías de atraso: 30\nAvisos enviados: ${x.d(3)}, ${x.d(7)}, ${x.d(14)}`,
+      `El pago total tiene que estar acreditado antes del ${x.d(37)}. Si para esa fecha no entró, voy a:\n\n1. mantener en pausa todos los trabajos y entregas,\n2. sumar los recargos por mora previstos en nuestro acuerdo, y\n3. pasar la deuda a una gestora de cobranzas o iniciar el reclamo judicial.`,
+      `Si necesitás pagarlo en cuotas, mandame una propuesta por escrito antes del ${x.d(37)}. Pasada esa fecha, se exige el saldo completo.`,
+      `Cuenta: ${x.pay || "los datos están en la factura adjunta"}`,
+      x.me,
+    ),
   },
 ];
 
 export function generateEmails(input: EmailInput, lang: Lang): GeneratedEmail[] {
   const stages = lang === "es" ? ES : EN;
-  const due = formatDate(addDays(input.dueDate, 0), lang);
-  return OFFSETS.map((offset, i) => {
-    const send = formatDate(addDays(input.dueDate, offset), lang);
-    const ctx: Ctx = {
-      c: input.clientName.trim() || (lang === "es" ? "equipo" : "there"),
-      n: input.invoiceNumber.trim() || "#001",
-      a: formatMoney(input.amount || 0, input.currency, lang),
-      due, me: input.yourName.trim() || (lang === "es" ? "Tu nombre" : "Your name"),
-      send, t: input.tone,
-    };
-    return { offset, sendDate: send, subject: stages[i].subject(ctx), body: stages[i].body(ctx) };
-  });
+  const d = (o: number) => formatDate(addDays(input.dueDate, o), lang);
+  const ctx: Ctx = {
+    c: input.clientName.trim() || (lang === "es" ? "equipo" : "there"),
+    n: input.invoiceNumber.trim() || "#001",
+    a: formatMoney(input.amount || 0, input.currency, lang),
+    me: input.yourName.trim() || (lang === "es" ? "Tu nombre" : "Your name"),
+    t: input.tone,
+    pay: (input.paymentDetails || "").trim(),
+    fee: (input.lateFee || "").trim(),
+    due: d(0),
+    d,
+  };
+  return OFFSETS.map((offset, i) => ({
+    offset,
+    sendDate: d(offset),
+    sendIso: isoOf(addDays(input.dueDate, offset)),
+    subject: stages[i].subject(ctx),
+    body: stages[i].body(ctx),
+  }));
 }
 
 export function mailtoHref(subject: string, body: string): string {

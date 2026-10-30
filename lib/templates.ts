@@ -18,24 +18,28 @@ export const templates: Template[] = [
     slug: "polite-payment-reminder-email",
     lang: "en",
     alt: "recordatorio-de-pago-factura-vencida",
-    title: "Polite Payment Reminder Email (Free Template)",
-    description: "A friendly, no-pressure payment reminder email for freelancers to send a few days after an invoice is due. Copy, paste, get paid.",
-    whenToSend: "1–3 days after the due date, when the delay is most likely an oversight.",
-    subject: "Quick reminder: invoice [INVOICE #]",
+    title: "Polite Payment Reminder Email: Free Template",
+    description: "The first reminder for an overdue invoice. Send it 3 days after the due date, with the payment details in the body so the client can pay without searching.",
+    whenToSend: "3 days after the due date. At this point most late invoices are an admin problem, not a refusal to pay.",
+    subject: "Invoice [INVOICE #]: payment reminder",
     body: `Hi [CLIENT NAME],
 
-Hope your week is going well! Just a quick note that invoice [INVOICE #] for [AMOUNT] was due on [DUE DATE], and I haven't seen the payment come through yet.
+Invoice [INVOICE #] for [AMOUNT] was due on [DUE DATE]. I don't have the payment on my side yet.
 
-It's probably just slipped through the cracks. Could you confirm when it's scheduled to be paid? If you need anything from me (a PO number, updated billing details, a tax form), let me know and I'll send it right away.
+Payment details:
 
-I've attached the invoice again for convenience.
+Amount: [AMOUNT]
+Reference: [INVOICE #]
+Pay to: [BANK / PAYMENT LINK]
 
-Thanks so much,
+If it has already gone out, send me the transfer date and I'll match it on my end.
+
+Thanks,
 [YOUR NAME]`,
     tips: [
-      "Assume good faith in the first reminder. Most late payments are process problems, not bad intent.",
-      "Always reattach the invoice so they don't have to dig for it.",
-      "Ask a direct question (\"when is it scheduled?\") so the reply has to include a date.",
+      "Put the payment details in the email body. Every extra click is another day of delay.",
+      "Attach the invoice again. Assume the first one is buried in someone's inbox.",
+      "Send it to the person who pays, not only to your project contact. Copy your contact.",
     ],
   },
   {
@@ -43,23 +47,22 @@ Thanks so much,
     lang: "en",
     alt: "seguimiento-factura-impaga",
     title: "Overdue Invoice Follow-Up Email Template",
-    description: "A clear second follow-up for an invoice that's one week overdue. Firm, professional, and designed to get a payment date in writing.",
-    whenToSend: "About 7 days after the due date, if the first reminder got no answer or no date.",
-    subject: "Invoice [INVOICE #] — 7 days overdue",
+    description: "The second reminder, 7 days after the due date. Its only job is to get a payment date in writing.",
+    whenToSend: "7 days after the due date, when the first reminder got no reply or no date.",
+    subject: "Invoice [INVOICE #]: 7 days overdue",
     body: `Hi [CLIENT NAME],
 
-I'm following up on invoice [INVOICE #] for [AMOUNT], which was due on [DUE DATE] and is now one week overdue.
+Invoice [INVOICE #] for [AMOUNT] is 7 days overdue (due [DUE DATE]). I wrote on [DATE OF FIRST REMINDER] and haven't had a reply.
 
-Could you confirm a payment date by the end of this week? I've attached the invoice again for reference.
+I need a payment date. Please reply by [DATE, 2 DAYS FROM NOW] with the date the transfer goes out.
 
-If there's an issue with the invoice or the work delivered, please let me know now so we can sort it out quickly — I'd rather fix it than let it drag on.
+If something is holding up approval (PO number, billing entity, tax details), tell me and I'll reissue the invoice the same day.
 
-Best,
 [YOUR NAME]`,
     tips: [
-      "Put the number of days overdue in the subject line. It's factual and it gets opened.",
-      "Give a concrete deadline for a reply, not just for the payment.",
-      "Invite objections early: disputes raised at day 7 are easier to solve than at day 45.",
+      "Ask for a date, not for payment. A date is easy to give and you can hold them to it.",
+      "Give a reply deadline 2 business days out.",
+      "Offer to fix paperwork now. Disputes raised on day 7 are cheap. On day 45 they are expensive.",
     ],
   },
   {
@@ -67,51 +70,58 @@ Best,
     lang: "en",
     alt: "mail-firme-para-cobrar-factura",
     title: "Firm Payment Request Email for Freelancers",
-    description: "When polite isn't working: a firm payment request that pauses work until the invoice is settled, without burning the relationship.",
-    whenToSend: "Around 14 days overdue, after two unanswered reminders.",
-    subject: "Overdue: invoice [INVOICE #] ([AMOUNT]) — action needed",
+    description: "Day 14: the late fee from your contract starts, new work stops, and the client gets one clear way out.",
+    whenToSend: "14 days after the due date, after two reminders without a payment date.",
+    subject: "Invoice [INVOICE #]: 14 days overdue, late fee applies",
     body: `Hi [CLIENT NAME],
 
-Invoice [INVOICE #] for [AMOUNT] is now two weeks overdue (due [DUE DATE]). I haven't received payment or a reply to my previous two messages.
+Invoice [INVOICE #] for [AMOUNT] is now 14 days overdue. I wrote on [DATE 1] and [DATE 2] and still don't have a payment date.
 
-Please arrange payment within the next 7 days, or reply with a confirmed payment date. Until the balance is settled, I'm pausing new work and deliverables on the account.
+As set out in section [X] of our agreement, a late fee of [1.5% PER MONTH] applies to the balance from today. If the full [AMOUNT] arrives by [DATE, 5 DAYS FROM NOW], I'll waive it.
 
-If paying in installments would help, I'm open to it — just reply today and we'll agree on a schedule.
+New work on the account is paused until the balance is cleared.
 
-Regards,
+If cash flow is the issue, propose two installments in writing and I'll consider it.
+
 [YOUR NAME]`,
     tips: [
-      "Pausing work is your strongest legitimate lever. Use it before threatening anything else.",
-      "Offering installments gives a struggling client a way to say yes.",
-      "Keep it short. Long emails read as anxious; short ones read as confident.",
+      "Only apply a fee your contract allows. Check the legal cap where your client is.",
+      "The waiver deadline is what gets the money moving. The fee itself rarely does.",
+      "Pausing work is your strongest legitimate lever. Use it before anything legal.",
     ],
   },
   {
     slug: "final-notice-before-collections",
     lang: "en",
     alt: "ultimo-aviso-antes-de-acciones-legales",
-    title: "Final Notice Before Collections — Email Template",
-    description: "A professional final notice for invoices 30+ days overdue. States the deadline and the consequences clearly, with no empty threats.",
-    whenToSend: "30 days or more past due, after at least three documented reminders.",
-    subject: "Final notice: invoice [INVOICE #] — [AMOUNT]",
+    title: "Final Notice Before Collections: Email Template",
+    description: "The day 30 final notice. A fixed deadline, the reminder history, and exactly what happens next. No threats you won't carry out.",
+    whenToSend: "30 days after the due date, after at least three documented reminders.",
+    subject: "Final notice: invoice [INVOICE #], [AMOUNT]",
     body: `Hi [CLIENT NAME],
 
-This is my final notice regarding invoice [INVOICE #] for [AMOUNT], which was due on [DUE DATE] and is now [DAYS] days overdue. I've contacted you on [DATE 1], [DATE 2] and [DATE 3] without resolution.
+This is the final notice for invoice [INVOICE #].
 
-If full payment is not received by [DEADLINE — 7 days from today], I will proceed with formal collection, which may include:
+Amount: [AMOUNT]
+Due date: [DUE DATE]
+Days overdue: 30
+Reminders sent: [DATE 1], [DATE 2], [DATE 3]
 
-• applying the late-payment fee set out in our agreement,
-• filing a small-claims action, and/or
-• referring the debt to a collections agency.
+Payment in full is due by [DEADLINE, 7 DAYS FROM NOW]. If it has not arrived by then, I will:
 
-I would much rather resolve this directly. Please pay the outstanding balance or contact me before the deadline to agree on a payment plan.
+1. keep all work and deliverables on hold,
+2. add the late fees set out in our agreement, and
+3. pass the debt to a collections agency or file a small-claims claim.
 
-Regards,
+If you need to pay in installments, send a written proposal before [DEADLINE]. After that date the full balance is due.
+
+Pay to: [BANK / PAYMENT LINK]
+
 [YOUR NAME]`,
     tips: [
-      "Only list consequences you are actually prepared to carry out.",
-      "List the dates of previous reminders: it shows a paper trail.",
-      "Send it as an email and, if the amount justifies it, also as a signed PDF letter.",
+      "List the reminder dates. It shows a paper trail if this ends up in front of a judge or an agency.",
+      "Only name steps you will take. An empty threat costs you the next negotiation.",
+      "For larger amounts, send a signed letter as PDF along with the email.",
     ],
   },
   {
@@ -119,47 +129,50 @@ Regards,
     lang: "en",
     alt: "aviso-recargo-por-mora",
     title: "Late Payment Fee Notice Email Template",
-    description: "How to tell a client a late fee is being applied to an overdue invoice — calmly, with the contract clause referenced.",
-    whenToSend: "When your contract includes a late-fee clause and the grace period has passed.",
-    subject: "Late fee applied — invoice [INVOICE #]",
+    description: "How to tell a client a late fee has been added to an overdue invoice, with the contract clause and the new total.",
+    whenToSend: "When your contract has a late fee clause and the grace period has passed.",
+    subject: "Invoice [INVOICE #]: late fee added, new balance [NEW TOTAL]",
     body: `Hi [CLIENT NAME],
 
-As invoice [INVOICE #] for [AMOUNT] remains unpaid [DAYS] days after its due date of [DUE DATE], a late-payment fee of [FEE — e.g. 1.5% per month] has been applied, as set out in section [X] of our agreement.
+Invoice [INVOICE #] for [AMOUNT] is [DAYS] days past its due date of [DUE DATE].
 
-The updated balance is [NEW TOTAL]. An updated invoice is attached.
+Under section [X] of our agreement, a late fee of [1.5% PER MONTH] has been added. The balance is now [NEW TOTAL]. The updated invoice is attached.
 
-If the original amount is paid in full by [DATE], I'm happy to waive the fee as a one-time courtesy.
+If the original [AMOUNT] is paid in full by [DATE], I'll remove the fee. This is a one-time offer.
 
-Thanks,
 [YOUR NAME]`,
     tips: [
-      "Only charge fees your contract actually allows — and check local law for caps.",
-      "Offering to waive the fee for quick payment often works better than the fee itself.",
-      "Reference the exact clause number so it's not open to debate.",
+      "State the new total in the subject. The accounts team reads subjects, not paragraphs.",
+      "Quote the clause number so it isn't up for debate.",
+      "Check local law. Some places cap late interest or require it to be disclosed on the invoice.",
     ],
   },
   {
     slug: "recordatorio-de-pago-factura-vencida",
     lang: "es",
     alt: "polite-payment-reminder-email",
-    title: "Recordatorio de pago de factura vencida (plantilla gratis)",
-    description: "Un mail amable para recordarle a un cliente una factura vencida, pensado para freelancers. Copiá, pegá y cobrá.",
-    whenToSend: "Entre 1 y 3 días después del vencimiento, cuando lo más probable es que sea un olvido.",
-    subject: "Recordatorio: factura [N° DE FACTURA]",
+    title: "Recordatorio de pago de factura vencida: plantilla gratis",
+    description: "El primer recordatorio para una factura vencida. Se manda a los 3 días del vencimiento, con los datos de pago en el cuerpo del mail para que el cliente pague sin buscar nada.",
+    whenToSend: "A los 3 días del vencimiento. En esta etapa casi siempre es un tema administrativo, no una negativa a pagar.",
+    subject: "Factura [N° DE FACTURA]: recordatorio de pago",
     body: `Hola [NOMBRE DEL CLIENTE],
 
-¡Espero que estés muy bien! Te escribo para recordarte que la factura [N° DE FACTURA] por [MONTO] venció el [FECHA DE VENCIMIENTO] y todavía no me figura el pago.
+La factura [N° DE FACTURA] por [MONTO] venció el [FECHA DE VENCIMIENTO] y todavía no tengo el pago registrado.
 
-Seguramente se pasó entre tantas cosas. ¿Me confirmás para cuándo está programado? Si necesitás algo de mi lado (datos de facturación, CUIT, orden de compra), avisame y te lo mando al toque.
+Datos para el pago:
 
-Te adjunto la factura de nuevo para que la tengas a mano.
+Monto: [MONTO]
+Referencia: [N° DE FACTURA]
+Cuenta: [CBU / ALIAS / LINK DE PAGO]
 
-¡Muchas gracias!
+Si ya lo transferiste, pasame la fecha y lo busco en mi cuenta.
+
+Gracias,
 [TU NOMBRE]`,
     tips: [
-      "En el primer recordatorio asumí buena fe: casi siempre es un tema de proceso, no de mala intención.",
-      "Adjuntá siempre la factura para que no la tengan que buscar.",
-      "Hacé una pregunta concreta (\"¿para cuándo está programado?\") así la respuesta trae una fecha.",
+      "Poné los datos de pago en el cuerpo del mail. Cada clic de más es un día más de atraso.",
+      "Adjuntá la factura otra vez. Asumí que la primera quedó perdida en alguna casilla.",
+      "Mandalo a quien paga, no solo a tu contacto del proyecto. Copiá a tu contacto.",
     ],
   },
   {
@@ -167,23 +180,22 @@ Te adjunto la factura de nuevo para que la tengas a mano.
     lang: "es",
     alt: "overdue-invoice-follow-up-email",
     title: "Mail de seguimiento por factura impaga",
-    description: "Segundo seguimiento para una factura con una semana de atraso. Profesional, claro y pensado para conseguir una fecha de pago por escrito.",
-    whenToSend: "Unos 7 días después del vencimiento, si el primer recordatorio no tuvo respuesta.",
+    description: "El segundo aviso, a los 7 días del vencimiento. Tiene un solo objetivo: conseguir una fecha de pago por escrito.",
+    whenToSend: "A los 7 días del vencimiento, si el primer recordatorio no tuvo respuesta o no trajo fecha.",
     subject: "Factura [N° DE FACTURA]: 7 días vencida",
     body: `Hola [NOMBRE DEL CLIENTE],
 
-Vuelvo sobre la factura [N° DE FACTURA] por [MONTO], que venció el [FECHA DE VENCIMIENTO] y ya lleva una semana de atraso.
+La factura [N° DE FACTURA] por [MONTO] lleva 7 días vencida (vencía el [FECHA DE VENCIMIENTO]). Te escribí el [FECHA DEL PRIMER AVISO] y no tuve respuesta.
 
-¿Me podés confirmar una fecha de pago antes del viernes? Te la adjunto de nuevo.
+Necesito una fecha de pago. Respondeme antes del [FECHA, EN 2 DÍAS] con el día en que sale la transferencia.
 
-Si hay algún problema con la factura o con el trabajo entregado, decímelo ahora así lo resolvemos rápido. Prefiero arreglarlo antes que dejarlo estirar.
+Si algo traba la aprobación (orden de compra, razón social, datos fiscales), avisame y te rehago la factura en el día.
 
-Saludos,
 [TU NOMBRE]`,
     tips: [
-      "Poné los días de atraso en el asunto: es un dato objetivo y se abre.",
-      "Pedí un plazo concreto para la respuesta, no solo para el pago.",
-      "Invitá a plantear problemas temprano: un reclamo al día 7 se resuelve más fácil que al día 45.",
+      "Pedí una fecha, no el pago. Una fecha es fácil de dar y después la podés reclamar.",
+      "Poné un plazo de respuesta de 2 días hábiles.",
+      "Ofrecé corregir papeles ahora. Un reclamo al día 7 sale barato. Al día 45, caro.",
     ],
   },
   {
@@ -191,23 +203,24 @@ Saludos,
     lang: "es",
     alt: "firm-payment-request-email",
     title: "Mail firme para cobrar una factura atrasada",
-    description: "Cuando la amabilidad no alcanza: un pedido de pago firme que pausa el trabajo hasta regularizar, sin romper la relación.",
-    whenToSend: "Alrededor de los 14 días de atraso, después de dos recordatorios sin respuesta.",
-    subject: "Factura [N° DE FACTURA] ([MONTO]) vencida: necesito respuesta",
+    description: "Día 14: empieza a correr el recargo del contrato, se frena el trabajo nuevo y el cliente tiene una salida clara.",
+    whenToSend: "A los 14 días del vencimiento, después de dos avisos sin fecha de pago.",
+    subject: "Factura [N° DE FACTURA]: 14 días vencida, corre el recargo",
     body: `Hola [NOMBRE DEL CLIENTE],
 
-La factura [N° DE FACTURA] por [MONTO] ya lleva dos semanas vencida (venció el [FECHA DE VENCIMIENTO]) y no recibí el pago ni respuesta a mis dos mensajes anteriores.
+La factura [N° DE FACTURA] por [MONTO] ya tiene 14 días de atraso. Te escribí el [FECHA 1] y el [FECHA 2], y sigo sin fecha de pago.
 
-Te pido que gestiones el pago dentro de los próximos 7 días o me confirmes una fecha concreta. Hasta que se regularice el saldo, pauso los trabajos y entregas nuevas de la cuenta.
+Según la cláusula [X] de nuestro acuerdo, desde hoy corre un recargo por mora del [3% MENSUAL] sobre el saldo. Si el total de [MONTO] entra antes del [FECHA, EN 5 DÍAS], no te lo cobro.
 
-Si te sirve pagarlo en cuotas, lo charlamos: respondeme hoy y armamos un cronograma.
+Los trabajos nuevos de la cuenta quedan en pausa hasta que se cancele el saldo.
 
-Saludos,
+Si el problema es de caja, mandame por escrito una propuesta en dos cuotas y la evalúo.
+
 [TU NOMBRE]`,
     tips: [
-      "Pausar el trabajo es tu mejor herramienta legítima. Usala antes que cualquier amenaza.",
-      "Ofrecer cuotas le da al cliente con problemas de caja una forma de decir que sí.",
-      "Mantenelo corto: los mails largos suenan ansiosos; los cortos, seguros.",
+      "Aplicá solo el recargo que figura en tu contrato. Revisá los topes legales.",
+      "Lo que mueve la plata es el plazo para bonificar el recargo, no el recargo en sí.",
+      "Pausar el trabajo es tu mejor herramienta legítima. Usala antes que cualquier vía legal.",
     ],
   },
   {
@@ -215,51 +228,56 @@ Saludos,
     lang: "es",
     alt: "final-notice-before-collections",
     title: "Último aviso de pago antes de acciones legales",
-    description: "Plantilla de último aviso para facturas con 30+ días de atraso. Plazo claro y consecuencias concretas, sin amenazas vacías.",
-    whenToSend: "Con 30 días o más de atraso, después de al menos tres recordatorios documentados.",
-    subject: "Último aviso: factura [N° DE FACTURA] por [MONTO]",
+    description: "El aviso final del día 30. Un plazo fijo, el historial de avisos y qué pasa después. Sin amenazas que no vayas a cumplir.",
+    whenToSend: "A los 30 días del vencimiento, con al menos tres avisos documentados.",
+    subject: "Último aviso: factura [N° DE FACTURA], [MONTO]",
     body: `Hola [NOMBRE DEL CLIENTE],
 
-Este es mi último aviso por la factura [N° DE FACTURA] por [MONTO], vencida el [FECHA DE VENCIMIENTO] y con [DÍAS] días de atraso. Te escribí el [FECHA 1], el [FECHA 2] y el [FECHA 3] sin obtener una solución.
+Este es el último aviso por la factura [N° DE FACTURA].
 
-Si no recibo el pago total antes del [PLAZO — 7 días desde hoy], voy a avanzar con las vías formales de cobro, que pueden incluir:
+Monto: [MONTO]
+Vencimiento: [FECHA DE VENCIMIENTO]
+Días de atraso: 30
+Avisos enviados: [FECHA 1], [FECHA 2], [FECHA 3]
 
-• aplicar el recargo por mora previsto en nuestro acuerdo,
-• enviar una carta documento, y/o
-• iniciar una gestión de cobro judicial o extrajudicial.
+El pago total tiene que estar acreditado antes del [PLAZO, EN 7 DÍAS]. Si para esa fecha no entró, voy a:
 
-Prefiero resolverlo directamente con vos. Por favor, aboná el saldo o escribime antes del plazo para acordar un plan de pagos.
+1. mantener en pausa todos los trabajos y entregas,
+2. sumar los recargos por mora previstos en nuestro acuerdo, y
+3. pasar la deuda a una gestora de cobranzas o iniciar el reclamo judicial.
 
-Saludos,
+Si necesitás pagarlo en cuotas, mandame una propuesta por escrito antes del [PLAZO]. Pasada esa fecha, se exige el saldo completo.
+
+Cuenta: [CBU / ALIAS / LINK DE PAGO]
+
 [TU NOMBRE]`,
     tips: [
-      "Mencioná solo consecuencias que realmente estés dispuesto a ejecutar.",
-      "Listá las fechas de los avisos anteriores: deja constancia del seguimiento.",
-      "Si el monto lo justifica, mandalo también como carta firmada en PDF.",
+      "Listá las fechas de los avisos. Es tu constancia si el tema termina en una mediación o en un juzgado.",
+      "Nombrá solo pasos que vas a dar. Una amenaza vacía te cuesta la próxima negociación.",
+      "Para montos grandes, sumá una carta firmada en PDF o una carta documento.",
     ],
   },
   {
     slug: "aviso-recargo-por-mora",
     lang: "es",
     alt: "late-payment-fee-notice-email",
-    title: "Aviso de recargo por mora (plantilla de mail)",
-    description: "Cómo avisarle a un cliente que se aplica un recargo por pago atrasado, con calma y citando la cláusula del contrato.",
-    whenToSend: "Cuando tu contrato incluye una cláusula de recargo y ya pasó el período de gracia.",
-    subject: "Recargo por mora aplicado: factura [N° DE FACTURA]",
+    title: "Aviso de recargo por mora: plantilla de mail",
+    description: "Cómo avisarle a un cliente que se sumó el recargo por mora a una factura vencida, con la cláusula del contrato y el nuevo total.",
+    whenToSend: "Cuando tu contrato tiene cláusula de mora y ya pasó el período de gracia.",
+    subject: "Factura [N° DE FACTURA]: recargo aplicado, nuevo saldo [NUEVO TOTAL]",
     body: `Hola [NOMBRE DEL CLIENTE],
 
-Como la factura [N° DE FACTURA] por [MONTO] sigue impaga a [DÍAS] días de su vencimiento ([FECHA DE VENCIMIENTO]), se aplicó un recargo por mora de [RECARGO — ej. 3% mensual], según la cláusula [X] de nuestro acuerdo.
+La factura [N° DE FACTURA] por [MONTO] lleva [DÍAS] días vencida (vencía el [FECHA DE VENCIMIENTO]).
 
-El saldo actualizado es [NUEVO TOTAL]. Te adjunto la factura actualizada.
+Según la cláusula [X] de nuestro acuerdo, se sumó un recargo por mora del [3% MENSUAL]. El saldo actual es [NUEVO TOTAL]. Te adjunto la factura actualizada.
 
-Si abonás el monto original completo antes del [FECHA], con gusto dejo sin efecto el recargo por única vez.
+Si el monto original de [MONTO] se acredita completo antes del [FECHA], saco el recargo. Es por única vez.
 
-Gracias,
 [TU NOMBRE]`,
     tips: [
-      "Cobrá solo los recargos que tu contrato permite, y revisá los límites legales de tu país.",
-      "Ofrecer bonificar el recargo por pago rápido suele funcionar mejor que el recargo en sí.",
-      "Citá el número exacto de cláusula para que no quede en discusión.",
+      "Poné el nuevo total en el asunto. En administración leen asuntos, no párrafos.",
+      "Citá el número de cláusula para que no quede en discusión.",
+      "Revisá la ley local: en algunos lugares hay topes de interés o hay que informarlo en la factura.",
     ],
   },
 ];

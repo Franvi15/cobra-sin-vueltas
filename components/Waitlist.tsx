@@ -15,7 +15,7 @@ export default function Waitlist({ lang }: { lang: "en" | "es" }) {
   }
   return (
     <form onSubmit={submit} className="w-full">
-      <p className="font-mono text-[11px] uppercase tracking-widest text-accent">{es ? "Muy pronto · Sumate a la lista" : "Coming soon · Join the waitlist"}</p>
+      <p className="font-mono text-[11px] uppercase tracking-widest text-accent">{es ? "Disponible pronto. Dejá tu mail" : "Available soon. Leave your email"}</p>
       <div className="mt-3 flex flex-col gap-2 sm:flex-row">
         <label className="sr-only" htmlFor="wl-email">Email</label>
         <input id="wl-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)}

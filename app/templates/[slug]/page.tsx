@@ -40,7 +40,7 @@ export default function TemplatePage({ params }: { params: { slug: string } }) {
         <article className="grid gap-10 pt-14 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
           <div>
             <p className="font-mono text-xs uppercase tracking-widest text-accent">{es ? "Plantilla gratis" : "Free template"}</p>
-            <h1 className="mt-4 font-display text-4xl font-black leading-tight tracking-tight md:text-6xl">{tpl.title}</h1>
+            <h1 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">{tpl.title}</h1>
             <p className="mt-5 text-lg">{tpl.description}</p>
             <p className="mt-6 border-l-4 border-ink pl-4 text-muted">
               <strong className="font-mono text-[11px] uppercase tracking-widest text-ink">{es ? "Cuándo mandarlo" : "When to send"}:</strong> {tpl.whenToSend}
@@ -53,7 +53,7 @@ export default function TemplatePage({ params }: { params: { slug: string } }) {
               <pre className="whitespace-pre-wrap p-6 font-sans text-[16px] leading-relaxed">{tpl.body}</pre>
             </div>
             <p className="mt-4 text-sm text-muted">
-              {es ? "¿Querés que se complete solo con tus datos y fechas? Usá el " : "Want it filled in with your details and dates? Use the "}
+              {es ? "Para tenerlo con tus datos y las fechas calculadas, usá el " : "To get it with your details and the dates worked out, use the "}
               <Link href={es ? "/es" : "/"} className="font-semibold text-ink underline decoration-accent decoration-2 underline-offset-4">{es ? "generador gratis" : "free generator"}</Link>.
             </p>
           </div>
@@ -62,7 +62,7 @@ export default function TemplatePage({ params }: { params: { slug: string } }) {
             <ol className="mt-3 space-y-4">
               {tpl.tips.map((tip, i) => (
                 <li key={i} className="flex gap-3 border-t border-rule pt-4">
-                  <span className="font-display text-2xl font-black text-accent">{i + 1}</span><span>{tip}</span>
+                  <span className="font-display text-2xl font-semibold text-accent">{i + 1}</span><span>{tip}</span>
                 </li>
               ))}
             </ol>

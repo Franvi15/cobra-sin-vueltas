@@ -16,8 +16,8 @@ export default function CopyButton({ text, label, copiedLabel, className = "" }:
   }
   return (
     <button type="button" onClick={copy} aria-live="polite"
-      className={`inline-flex items-center gap-2 border border-ink bg-ink px-4 py-2 font-mono text-xs uppercase tracking-widest text-paper transition hover:bg-accent hover:border-accent ${className}`}>
-      {done ? `✓ ${copiedLabel}` : label}
+      className={`inline-flex items-center gap-2 border border-ink bg-ink px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] text-paper hover:border-accent hover:bg-accent ${className}`}>
+      {done ? copiedLabel : label}
     </button>
   );
 }

@@ -4,58 +4,73 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Waitlist from "./Waitlist";
 
+const FILES: [string, string, string][] = [
+  ["01", "01-Guide-Get-Paid-On-Time.pdf", "92 KB"],
+  ["02", "02-Templates/ (12 files, .md)", "9 KB"],
+  ["02", "02-Templates-EN-ES.pdf", "95 KB"],
+  ["03", "03-Freelance-Contract-EN.docx", "38 KB"],
+  ["03", "03-Contrato-Freelance-ES.docx", "38 KB"],
+  ["04", "04-Late-Payment-Clauses-EN-ES.docx", "38 KB"],
+  ["05", "05-Final-Notice-Letter-EN-ES.docx", "37 KB"],
+  ["06", "06-Payment-Tracker.csv", "1 KB"],
+  ["", "README.md", "2 KB"],
+  ["", "LICENSE.txt", "1 KB"],
+];
+
 const C = {
   en: {
     kicker: "Late Payment Rescue Pack",
-    title: "Late Payment Rescue Pack — $19",
-    lead: "Everything a freelancer needs to prevent late payments and recover the ones that already happened. In English and Spanish. Download once, use forever.",
-    buy: "Buy the pack — $19",
-    secure: "Secure checkout via Gumroad · Instant download",
-    inside: "What's inside",
+    title: "The paperwork that gets invoices paid.",
+    lead: "Contract, late-fee clauses, 12 collection emails, a final notice letter and a tracker. The same documents a collections desk works from, written for freelancers. English and Spanish.",
+    buy: `Buy the pack, USD ${PACK_PRICE}`,
+    secure: "Checkout by Gumroad. Files download right after payment.",
+    inside: "What's in the folder",
+    zip: "ZIP, 21 files, 351 KB",
     items: [
-      ["12 escalation email templates", "6 English + 6 Spanish: reminder, follow-up, firm request, payment-plan offer, late-fee notice, final notice. As editable .md files and one printable PDF."],
-      ["Late-payment clause", "Drop-in contract clauses (EN/ES): due dates, late fees, work suspension, collection costs. Editable .docx."],
-      ["Freelance service contract", "A clean, plain-language contract (EN/ES) with payment terms that actually protect you. Editable .docx."],
-      ["Final notice letter", "A formal letter for 30+ days overdue, ready to sign and send as PDF. EN/ES .docx."],
-      ["Payment tracker", "CSV that imports straight into Google Sheets or Notion: invoices, due dates, reminder stages, status."],
-      ["The get-paid-on-time guide", "A practical PDF playbook: prevention, the +3/+7/+14/+30 escalation system, what to say on calls, when to walk away."],
+      ["Guide: get paid on time", "8 sections, EN and ES. What to settle before the work starts, what goes on the invoice, the day +3, +7, +14 and +30 schedule, a phone script, and when to stop chasing."],
+      ["12 collection emails", "6 EN, 6 ES: reminder, follow-up, firm request with late fee, payment plan, late fee notice, final notice. Editable .md files plus one printable PDF."],
+      ["Freelance contract", "Services agreement in EN and ES with deposit, due date, late fee, work suspension and collection costs written in. Editable .docx."],
+      ["Late-payment clauses", "The payment clauses on their own, to paste into a contract you already use, plus invoice footer lines. EN and ES .docx."],
+      ["Final notice letter", "Formal letter for invoices 30 days overdue. Fill in, sign, send as PDF. EN and ES .docx."],
+      ["Payment tracker", "CSV for Google Sheets, Notion or Excel. One row per invoice: due date, balance, stage, last contact, next action date."],
     ],
-    faqTitle: "FAQ",
+    faqTitle: "Questions",
     faq: [
-      ["Is this legal advice?", "No. The contract and clauses are well-structured starting points written for freelancers, not legal advice. For large contracts, have a local lawyer review them."],
+      ["Is this legal advice?", "No. The contract and clauses are solid starting points, not legal advice. For large contracts, have a lawyer in your country review them."],
       ["What format are the files?", "PDF, Word (.docx), Markdown (.md) and CSV. They open in Google Docs, Word, Pages, Notion, Sheets and Excel."],
-      ["Does it work outside the US or Argentina?", "Yes. Templates are jurisdiction-neutral; the guide flags where local rules (like late-fee caps) matter."],
-      ["Can I use it for my clients or team?", "The license covers personal use for your own freelance business. You can't resell or redistribute the files."],
-      ["What if it doesn't help?", "Email me within 14 days of purchase and I'll refund you in full. No questions, no forms."],
+      ["Does it work outside the US or Argentina?", "Yes. The templates don't depend on one country. The guide notes where local rules, such as caps on late interest, apply."],
+      ["Can my team use it?", "The license covers your own freelance business. You can't resell or redistribute the files."],
+      ["What if it doesn't help?", "Email me within 14 days of purchase for a full refund. No form to fill in."],
     ],
-    guarantee: "14-day guarantee",
-    guaranteeBody: `If the pack doesn't help you get paid, email ${CONTACT_EMAIL} within 14 days and get a full refund.`,
+    guarantee: "14-day refund",
+    guaranteeBody: `If the pack doesn't help you collect, email ${CONTACT_EMAIL} within 14 days and you get a full refund.`,
   },
   es: {
     kicker: "Pack de Rescate de Cobros",
-    title: "Late Payment Rescue Pack — USD 19",
-    lead: "Todo lo que un freelancer necesita para evitar pagos atrasados y recuperar los que ya pasaron. En español y en inglés. Lo descargás una vez y lo usás para siempre.",
-    buy: "Comprar el pack — USD 19",
-    secure: "Pago seguro con Gumroad · Descarga inmediata",
-    inside: "Qué incluye",
+    title: "Los papeles que hacen que te paguen.",
+    lead: "Contrato, cláusulas de mora, 12 mails de cobranza, carta de último aviso y planilla de seguimiento. Los mismos documentos con los que trabaja un área de cobranzas, adaptados a freelancers. En español y en inglés.",
+    buy: `Comprar el pack, USD ${PACK_PRICE}`,
+    secure: "Pago por Gumroad. La descarga queda disponible apenas se acredita.",
+    inside: "Qué hay en la carpeta",
+    zip: "ZIP, 21 archivos, 351 KB",
     items: [
-      ["12 plantillas de mails de cobro", "6 en español + 6 en inglés: recordatorio, seguimiento, pedido firme, plan de pagos, aviso de recargo y último aviso. En .md editables y un PDF imprimible."],
-      ["Cláusula de mora", "Cláusulas listas para pegar en tu contrato (ES/EN): vencimientos, recargos, suspensión del trabajo, gastos de cobranza. .docx editable."],
-      ["Contrato de servicios freelance", "Un contrato claro y en lenguaje simple (ES/EN) con condiciones de pago que te protegen de verdad. .docx editable."],
-      ["Carta de último aviso", "Carta formal para atrasos de 30+ días, lista para firmar y mandar en PDF. ES/EN .docx."],
-      ["Planilla de seguimiento", "CSV que importás directo en Google Sheets o Notion: facturas, vencimientos, etapa de aviso, estado."],
-      ["Guía para cobrar a tiempo", "Un PDF práctico: prevención, el sistema +3/+7/+14/+30, qué decir por teléfono y cuándo soltar."],
+      ["Guía para cobrar a tiempo", "8 secciones, ES y EN. Qué dejar firmado antes de empezar, qué tiene que decir la factura, el calendario de los días +3, +7, +14 y +30, un guion para llamar y cuándo dejar de perseguir."],
+      ["12 mails de cobranza", "6 ES, 6 EN: recordatorio, seguimiento, pedido firme con recargo, plan de pagos, aviso de recargo y último aviso. Archivos .md editables y un PDF para imprimir."],
+      ["Contrato freelance", "Contrato de servicios en ES y EN con anticipo, vencimiento, recargo por mora, suspensión del trabajo y gastos de cobranza. .docx editable."],
+      ["Cláusulas de mora", "Las cláusulas de pago sueltas, para pegar en el contrato que ya usás, más líneas para el pie de factura. ES y EN .docx."],
+      ["Carta de último aviso", "Carta formal para facturas con 30 días de atraso. Completás, firmás y mandás en PDF. ES y EN .docx."],
+      ["Planilla de seguimiento", "CSV para Google Sheets, Notion o Excel. Una fila por factura: vencimiento, saldo, etapa, último contacto y próxima acción."],
     ],
-    faqTitle: "Preguntas frecuentes",
+    faqTitle: "Preguntas",
     faq: [
-      ["¿Es asesoramiento legal?", "No. El contrato y las cláusulas son un punto de partida bien armado para freelancers, no asesoramiento legal. Para contratos grandes, consultá con un abogado de tu país."],
+      ["¿Es asesoramiento legal?", "No. El contrato y las cláusulas son una buena base, no asesoramiento legal. Para contratos grandes, que los revise un abogado de tu país."],
       ["¿En qué formato vienen?", "PDF, Word (.docx), Markdown (.md) y CSV. Se abren en Google Docs, Word, Pages, Notion, Sheets y Excel."],
-      ["¿Sirve fuera de Argentina?", "Sí. Las plantillas son neutrales; la guía marca dónde importan las reglas locales (como topes de recargos)."],
-      ["¿Lo puedo compartir con mi equipo?", "La licencia es de uso personal para tu propio trabajo freelance. No se puede revender ni redistribuir."],
-      ["¿Y si no me sirve?", "Escribime dentro de los 14 días de la compra y te devuelvo el 100%. Sin preguntas."],
+      ["¿Sirve fuera de Argentina?", "Sí. Las plantillas no dependen de un país. La guía marca dónde pesan las reglas locales, como los topes de interés por mora."],
+      ["¿Lo puede usar mi equipo?", "La licencia cubre tu propio trabajo freelance. No se puede revender ni redistribuir."],
+      ["¿Y si no me sirve?", "Escribime dentro de los 14 días de la compra y te devuelvo el total. Sin formularios."],
     ],
-    guarantee: "Garantía de 14 días",
-    guaranteeBody: `Si el pack no te ayuda a cobrar, escribí a ${CONTACT_EMAIL} dentro de los 14 días y te devolvemos todo.`,
+    guarantee: "Devolución en 14 días",
+    guaranteeBody: `Si el pack no te ayuda a cobrar, escribí a ${CONTACT_EMAIL} dentro de los 14 días y te devolvemos el total.`,
   },
 };
 
@@ -80,8 +95,8 @@ export default function PackPage({ lang }: { lang: Lang }) {
   const BuyBlock = () =>
     GUMROAD_URL ? (
       <div>
-        <a href={GUMROAD_URL} className="inline-block bg-accent px-8 py-5 font-mono text-sm uppercase tracking-widest text-paper transition hover:bg-ink" data-gumroad-overlay-checkout="true">
-          {c.buy} →
+        <a href={GUMROAD_URL} className="inline-block bg-accent px-7 py-4 font-mono text-xs uppercase tracking-[0.16em] text-paper hover:bg-ink" data-gumroad-overlay-checkout="true">
+          {c.buy}
         </a>
         <p className="mt-3 font-mono text-[11px] uppercase tracking-widest text-muted">{c.secure}</p>
       </div>
@@ -97,26 +112,35 @@ export default function PackPage({ lang }: { lang: Lang }) {
         <section className="grid gap-10 pb-12 pt-14 md:grid-cols-[3fr_2fr] md:pt-20">
           <div>
             <p className="font-mono text-xs uppercase tracking-widest text-accent">{c.kicker}</p>
-            <h1 className="mt-4 font-display text-5xl font-black leading-[0.95] tracking-tight md:text-7xl">{c.title}</h1>
+            <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.02] tracking-tight md:text-6xl">{c.title}</h1>
             <p className="mt-6 max-w-xl text-lg md:text-xl">{c.lead}</p>
             <div className="mt-8 max-w-lg"><BuyBlock /></div>
           </div>
-          <div className="relative self-start border-2 border-ink bg-white/50 p-6 font-mono text-xs leading-7">
-            <span className="absolute -top-3 right-4 bg-accent px-2 py-0.5 text-paper">ZIP</span>
-            <p className="font-bold">Late-Payment-Rescue-Pack/</p>
-            {["01-Guide-Get-Paid-On-Time.pdf", "02-Templates/ (12 × .md)", "02-Templates-EN-ES.pdf", "03-Freelance-Contract-EN.docx", "03-Contrato-Freelance-ES.docx", "04-Late-Payment-Clauses-EN-ES.docx", "05-Final-Notice-Letter-EN-ES.docx", "06-Payment-Tracker.csv", "README.md · LICENSE.txt"].map((f) => (
-              <p key={f} className="border-t border-rule">└ {f}</p>
-            ))}
-          </div>
+          <figure className="self-start border border-ink bg-[#FBF8F2] font-mono text-[12px]" aria-label={c.inside}>
+            <figcaption className="flex justify-between border-b border-ink px-4 py-2.5 uppercase tracking-[0.14em]">
+              <span>Late-Payment-Rescue-Pack/</span><span className="text-muted">{c.zip}</span>
+            </figcaption>
+            <table className="w-full tabular-nums">
+              <tbody>
+                {FILES.map(([n, f, size]) => (
+                  <tr key={f} className="border-t border-rule first:border-t-0">
+                    <td className="w-8 py-2 pl-4 text-accent">{n}</td>
+                    <td className="py-2 pr-2 break-all">{f}</td>
+                    <td className="whitespace-nowrap py-2 pr-4 text-right text-muted">{size}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </figure>
         </section>
 
         <section className="border-t-2 border-ink pt-10">
-          <h2 className="font-display text-4xl font-black">{c.inside}</h2>
+          <h2 className="font-display text-3xl font-semibold">{c.inside}</h2>
           <ol className="mt-8 grid gap-x-10 md:grid-cols-2">
             {c.items.map(([h, p], i) => (
               <li key={h} className="flex gap-5 border-t border-rule py-6">
-                <span className="font-display text-4xl font-black text-accent">{String(i + 1).padStart(2, "0")}</span>
-                <div><h3 className="text-xl font-bold">{h}</h3><p className="mt-2 text-muted">{p}</p></div>
+                <span className="pt-1 font-mono text-sm tabular-nums text-accent">{String(i + 1).padStart(2, "0")}</span>
+                <div><h3 className="text-lg font-semibold">{h}</h3><p className="mt-2 text-muted">{p}</p></div>
               </li>
             ))}
           </ol>
@@ -124,11 +148,11 @@ export default function PackPage({ lang }: { lang: Lang }) {
 
         <section className="mt-16 grid gap-10 md:grid-cols-[2fr_1fr]">
           <div>
-            <h2 className="font-display text-4xl font-black">{c.faqTitle}</h2>
+            <h2 className="font-display text-3xl font-semibold">{c.faqTitle}</h2>
             <div className="mt-6 border-t-2 border-ink">
               {c.faq.map(([q, a]) => (
                 <details key={q} className="group border-b border-rule py-5">
-                  <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-bold">
+                  <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold">
                     {q}<span className="font-mono text-accent transition group-open:rotate-45">+</span>
                   </summary>
                   <p className="mt-3 text-muted">{a}</p>
@@ -137,13 +161,13 @@ export default function PackPage({ lang }: { lang: Lang }) {
             </div>
           </div>
           <aside className="self-start bg-olive p-8 text-paper">
-            <p className="font-display text-6xl font-black">14</p>
+            <p className="font-display text-6xl font-semibold tabular-nums">14</p>
             <h3 className="mt-2 font-mono text-xs uppercase tracking-widest">{c.guarantee}</h3>
             <p className="mt-4 text-paper/85">{c.guaranteeBody}</p>
           </aside>
         </section>
 
-        <section className="mt-16 border-2 border-ink p-8 md:p-12">
+        <section className="mt-16 border-y-2 border-ink py-10">
           <div className="max-w-lg"><BuyBlock /></div>
         </section>
       </main>

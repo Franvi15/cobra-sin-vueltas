@@ -14,29 +14,41 @@ export default function Home({ lang }: { lang: Lang }) {
     <div lang={lang}>
       <Header lang={lang} />
       <main>
-        <section className="mx-auto max-w-6xl px-5 pb-12 pt-14 md:pt-20">
-          <p className="font-mono text-xs uppercase tracking-widest text-accent">{d.kicker}</p>
-          <h1 className="mt-4 max-w-5xl font-display text-5xl font-black leading-[0.95] tracking-tight md:text-8xl">
-            {d.hero}
-          </h1>
-          <div className="mt-8 grid gap-6 border-t border-ink pt-6 md:grid-cols-[2fr_1fr]">
-            <p className="max-w-2xl text-lg md:text-xl">{d.sub}</p>
-            <p className="font-mono text-[11px] uppercase leading-relaxed tracking-widest text-muted md:text-right">
-              +3 → +7 → +14 → +30<br />{lang === "es" ? "amable · firme · final" : "friendly · firm · final"}
-            </p>
+        <section className="mx-auto grid max-w-6xl gap-10 px-5 pb-14 pt-12 md:grid-cols-12 md:pt-16">
+          <div className="md:col-span-8">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">{d.kicker}</p>
+            <h1 className="mt-5 font-display text-[2.75rem] font-bold leading-[1.02] tracking-[-0.02em] md:text-[4.5rem]">
+              {d.hero}
+            </h1>
+            <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-ink/80">{d.sub}</p>
           </div>
+          <aside className="self-end md:col-span-4" aria-label={d.out.title}>
+            <table className="w-full border-t-2 border-ink text-sm tabular-nums">
+              <caption className="pb-2 text-left font-mono text-[11px] uppercase tracking-[0.18em] text-muted">{d.out.title}</caption>
+              <tbody>
+                {d.schedule.map(([day, what]) => (
+                  <tr key={day} className="border-b border-rule">
+                    <td className="w-14 py-2.5 font-mono text-accent">{day}</td>
+                    <td className="py-2.5">{what}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </aside>
         </section>
         <section className="mx-auto max-w-6xl px-5">
           <Generator lang={lang} />
         </section>
         <PackCta lang={lang} />
         <section className="mx-auto mt-20 max-w-6xl px-5">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-muted">{lang === "es" ? "Plantillas gratis" : "Free templates"}</h2>
-          <ul className="mt-4 divide-y divide-rule border-y border-ink">
-            {tpls.map((x) => (
-              <li key={x.slug}>
-                <Link href={`/templates/${x.slug}`} className="flex items-center justify-between gap-4 py-4 font-display text-xl font-bold hover:text-accent md:text-2xl">
-                  {x.title}<span aria-hidden>→</span>
+          <h2 className="border-b-2 border-ink pb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">{d.tplHeading}</h2>
+          <ul>
+            {tpls.map((x, i) => (
+              <li key={x.slug} className="border-b border-rule">
+                <Link href={`/templates/${x.slug}`} className="grid grid-cols-[3rem_1fr] gap-4 py-4 hover:text-accent md:grid-cols-[3rem_1fr_1fr]">
+                  <span className="font-mono text-sm tabular-nums text-muted">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="font-display text-xl font-semibold">{x.title}</span>
+                  <span className="hidden text-sm text-muted md:block">{x.whenToSend}</span>
                 </Link>
               </li>
             ))}

@@ -9,8 +9,7 @@ export default function Header({ lang, altHref }: { lang: Lang; altHref?: string
     <header className="border-b border-ink">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
         <Link href={d.home} className="group flex items-baseline gap-2">
-          <span className="font-display text-2xl font-black tracking-tight">{lang === "es" ? "Cobrá Sin Vueltas" : "Chase Invoice"}</span>
-          <span className="hidden h-2 w-2 rounded-full bg-accent sm:inline-block" aria-hidden />
+          <span className="font-display text-2xl font-semibold tracking-tight">{lang === "es" ? "Cobrá Sin Vueltas" : "Chase Invoice"}</span>
         </Link>
         <nav className="flex items-center gap-4 font-mono text-[11px] uppercase tracking-widest sm:gap-6">
           <Link href={d.home} className="hidden hover:text-accent sm:inline">{d.nav.tool}</Link>
