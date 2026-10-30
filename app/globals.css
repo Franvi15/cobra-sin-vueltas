@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { -webkit-text-size-adjust: 100%; }
+body { @apply bg-paper text-ink font-sans antialiased; }
+::selection { background: #E0401B; color: #F3EEE3; }
+a, button, input, select { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid #E0401B; outline-offset: 2px; }
