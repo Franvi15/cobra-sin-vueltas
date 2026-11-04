@@ -11,7 +11,7 @@ import Reveal from "./Reveal";
 import StickyBuy from "./StickyBuy";
 import Link from "next/link";
 import { templates, guides, tplPath } from "@/lib/templates";
-import { CHECKOUT_URL } from "@/lib/site";
+import BuyLink from "./BuyLink";
 
 export default function Home({ lang }: { lang: Lang }) {
   const d = t(lang);
@@ -34,7 +34,7 @@ export default function Home({ lang }: { lang: Lang }) {
               <p className="mt-6 max-w-[50ch] text-[17px] leading-[1.65] text-white/70 sm:text-[18px]">{k.heroSub}</p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <a href="#generator" className="btn h-12 bg-white px-6 text-[16px] font-semibold text-night shadow-[0_8px_24px_-8px_rgba(153,246,228,0.45)] hover:bg-brand-soft">{k.heroCta}</a>
-                <a href={CHECKOUT_URL} className="btn h-12 border border-coral/60 px-6 text-[16px] font-semibold text-coral hover:bg-coral hover:text-night">{k.buy}</a>
+                <BuyLink location="home_hero" lang={lang} className="btn h-12 border border-coral/60 px-6 text-[16px] font-semibold text-coral hover:bg-coral hover:text-night">{k.buy}</BuyLink>
               </div>
               <p className="mt-4 text-[13px] text-white/50">{k.heroNote}</p>
             </div>
@@ -160,7 +160,7 @@ export default function Home({ lang }: { lang: Lang }) {
         </section>
       </main>
       <Footer lang={lang} />
-      <StickyBuy label={k.buy} note={k.sticky} />
+      <StickyBuy label={k.buy} note={k.sticky} lang={lang} location="home_sticky" />
     </div>
   );
 }

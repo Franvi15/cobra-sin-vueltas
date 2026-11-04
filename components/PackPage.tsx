@@ -3,6 +3,7 @@ import { CHECKOUT_URL, PACK_PRICE, SITE_URL, CONTACT_EMAIL } from "@/lib/site";
 import Header from "./Header";
 import Footer from "./Footer";
 import Link from "next/link";
+import BuyLink from "./BuyLink";
 import PackSales, { BuyBox } from "./PackSales";
 import DocStack from "./DocStack";
 import Reveal from "./Reveal";
@@ -125,7 +126,7 @@ export default function PackPage({ lang }: { lang: Lang }) {
                 <p className="label-dark">{c.kicker}</p>
                 <h1 className="h-display mt-4 max-w-[15ch] text-[42px] sm:text-[60px]">{c.title}</h1>
                 <p className="mt-6 max-w-[56ch] text-[17px] leading-[1.7] text-white/70">{c.lead}</p>
-                <div className="mt-10 max-w-md"><BuyBox lang={lang} /></div>
+                <div className="mt-10 max-w-md"><BuyBox lang={lang} location="pack_page_hero" /></div>
               </div>
               <DocStack lang={lang} />
             </div>
@@ -167,7 +168,7 @@ export default function PackPage({ lang }: { lang: Lang }) {
           <Reveal>
             <h2 className="h-section">{c.faqTitle}</h2>
             <p className="mt-4 max-w-[40ch] text-[16px] leading-relaxed text-ink-2">{c.guaranteeBody}</p>
-            <a href={CHECKOUT_URL} className="btn-buy mt-8">{k.buy}</a>
+            <BuyLink location="pack_page_faq" lang={lang} className="btn-buy mt-8">{k.buy}</BuyLink>
           </Reveal>
           <div className="divide-y divide-line rounded-2xl border border-line bg-white">
             {c.faq.map(([q, a]) => (
@@ -185,7 +186,7 @@ export default function PackPage({ lang }: { lang: Lang }) {
         <PackSales lang={lang} showLink={false} />
       </main>
       <Footer lang={lang} />
-      <StickyBuy label={k.buy} note={k.sticky} />
+      <StickyBuy label={k.buy} note={k.sticky} lang={lang} location="pack_page_sticky" />
     </div>
   );
 }

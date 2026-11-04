@@ -4,11 +4,12 @@ import type { Lang } from "@/lib/site";
 import { t } from "@/lib/i18n";
 import { generateEmails, mailtoHref, type Tone } from "@/lib/emails";
 import CopyButton from "./CopyButton";
+import BuyLink from "./BuyLink";
 
 const CURRENCIES = ["USD", "EUR", "ARS", "GBP", "MXN", "CLP", "COP", "UYU", "BRL", "CAD", "AUD"];
 const DAYS = [3, 7, 14, 30];
 
-export default function Generator({ lang }: { lang: Lang }) {
+export default function Generator({ lang, ctaLocation = "generator_result" }: { lang: Lang; ctaLocation?: string }) {
   const d = t(lang);
   const es = lang === "es";
   const [f, setF] = useState({
@@ -133,6 +134,39 @@ export default function Generator({ lang }: { lang: Lang }) {
           )}
         </article>
       </div>
+
+      {emails.length > 0 && (
+        <section aria-labelledby="rescue-h" className="border-t border-line bg-night px-6 py-8 text-white sm:px-8 sm:py-10 lg:col-span-2">
+          <div className="mx-auto max-w-3xl md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-10">
+            <div>
+              <h3 id="rescue-h" className="text-[22px] font-semibold leading-tight tracking-heading sm:text-[26px]">
+                {es ? "¿Siguen sin pagarte después del día 30?" : "Still not paid after Day 30?"}
+              </h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-white/70">
+                {es ? "Ahí ya no alcanza con otro mail. El Late-Payment Rescue Pack trae lo que mando yo cuando un cliente se hace el distraído:" : "That is when another email stops working. The Late-Payment Rescue Pack has what I send when a client goes quiet:"}
+              </p>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-[15px] leading-relaxed text-white/85 marker:text-white/40">
+                {(es ? [
+                  "Una carta formal de último aviso en Word, lista para firmar y mandar en PDF.",
+                  "Mails para cobrar recargo por mora y para cerrar un plan de pagos, en español e inglés.",
+                  "Cláusulas de mora y un contrato freelance para que no te vuelva a pasar.",
+                ] : [
+                  "A formal final notice letter in Word, ready to sign and send as a PDF.",
+                  "Emails for charging a late fee and agreeing a payment plan, in English and Spanish.",
+                  "Late payment clauses and a freelance contract so it does not happen again.",
+                ]).map((b) => <li key={b}>{b}</li>)}
+              </ul>
+            </div>
+            <div className="mt-7 md:mt-0 md:w-64">
+              <p className="text-[15px] text-white/70"><span className="text-[32px] font-semibold tabular-nums text-white">$19</span> {es ? "USD, pago único" : "one payment"}</p>
+              <BuyLink location={ctaLocation} lang={lang} className="btn mt-3 h-14 w-full bg-coral px-6 text-[17px] font-semibold text-night hover:bg-[#FA8569]">
+                {es ? "Quiero el pack por $19" : "Get the pack for $19"}
+              </BuyLink>
+              <p className="mt-3 text-[13px] text-white/55">{es ? "Descarga inmediata. Garantía de 14 días." : "Instant download. 14-day money-back guarantee."}</p>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

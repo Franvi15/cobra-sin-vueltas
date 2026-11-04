@@ -8,7 +8,7 @@ import PackSales from "./PackSales";
 import StickyBuy from "./StickyBuy";
 import { t } from "@/lib/i18n";
 import { c, toneForStage } from "@/lib/copy";
-import { CHECKOUT_URL } from "@/lib/site";
+import BuyLink from "./BuyLink";
 
 function Mail({ subject, body, es, label }: { subject: string; body: string; es: boolean; label: string }) {
   const full = `${es ? "Asunto" : "Subject"}: ${subject}\n\n${body}`;
@@ -121,7 +121,7 @@ export default function TemplateView({ tpl }: { tpl: Template }) {
             <section className="rounded-2xl bg-night p-6 text-white">
               <p className="text-[15px] font-semibold">{es ? "Los 12 mails, contrato y planilla" : "All 12 emails, contract and tracker"}</p>
               <p className="mt-2 text-[13.5px] leading-relaxed text-white/65">{es ? "Pago único. Garantía de 14 días." : "One payment. 14-day money-back guarantee."}</p>
-              <a href={CHECKOUT_URL} className="btn mt-5 h-11 w-full bg-coral font-semibold text-night hover:bg-[#FA8569]">{k.buy}</a>
+              <BuyLink location="template_sidebar" lang={tpl.lang} className="btn mt-5 h-11 w-full bg-coral font-semibold text-night hover:bg-[#FA8569]">{k.buy}</BuyLink>
             </section>
           </aside>
         </div>
@@ -129,7 +129,7 @@ export default function TemplateView({ tpl }: { tpl: Template }) {
         <section id="generator" className="container-x mt-24 scroll-mt-16">
           <h2 className="h-section">{es ? "Generá los 4 mails con tus datos" : "Generate all 4 emails with your details"}</h2>
           <p className="mt-3 max-w-[60ch] text-[16.5px] text-ink-2">{es ? "Gratis, sin cuenta. Fechas calculadas desde el vencimiento." : "Free, no account. Dates calculated from the due date."}</p>
-          <div className="mt-10"><Generator lang={tpl.lang} /></div>
+          <div className="mt-10"><Generator lang={tpl.lang} ctaLocation="template_generator_result" /></div>
         </section>
 
         <section className="container-x mt-24">
@@ -150,7 +150,7 @@ export default function TemplateView({ tpl }: { tpl: Template }) {
         <PackSales lang={tpl.lang} />
       </main>
       <Footer lang={tpl.lang} />
-      <StickyBuy label={k.buy} note={k.sticky} />
+      <StickyBuy label={k.buy} note={k.sticky} lang={tpl.lang} location="template_sticky" />
     </div>
   );
 }

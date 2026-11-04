@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CHECKOUT_URL, type Lang } from "@/lib/site";
+import type { Lang } from "@/lib/site";
+import BuyLink from "./BuyLink";
 import { t } from "@/lib/i18n";
 import Logo from "./Logo";
 
@@ -20,7 +21,7 @@ export default function Header({ lang, altHref }: { lang: Lang; altHref?: string
           <Link href={altHref ?? d.other} hrefLang={es ? "en" : "es"} lang={es ? "en" : "es"} className="text-white/50 transition-colors hover:text-white">
             {es ? "EN" : "ES"}<span className="sr-only">{es ? ", English" : ", Español"}</span>
           </Link>
-          <a href={CHECKOUT_URL} className="btn h-9 bg-coral px-3.5 text-[13.5px] font-semibold text-night hover:bg-[#FA8569]">{es ? "Pack USD 19" : "Pack, $19"}</a>
+          <BuyLink location="header" lang={lang} className="btn h-9 bg-coral px-3.5 text-[13.5px] font-semibold text-night hover:bg-[#FA8569]">{es ? "Pack USD 19" : "Pack, $19"}</BuyLink>
         </nav>
       </div>
     </header>

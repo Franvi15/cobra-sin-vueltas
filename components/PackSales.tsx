@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BuyLink from "./BuyLink";
 import { CHECKOUT_URL, PACK_PRICE, type Lang } from "@/lib/site";
 import { c } from "@/lib/copy";
 import { t } from "@/lib/i18n";
@@ -8,7 +9,7 @@ const Check = () => (
   <svg aria-hidden className="mt-1 shrink-0 text-brand-bright" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
 );
 
-export function BuyBox({ lang, dark = true }: { lang: Lang; dark?: boolean }) {
+export function BuyBox({ lang, dark = true, location = "pack_band" }: { lang: Lang; dark?: boolean; location?: string }) {
   const k = c(lang);
   return (
     <div>
@@ -17,10 +18,10 @@ export function BuyBox({ lang, dark = true }: { lang: Lang; dark?: boolean }) {
         <span className={`text-[14px] ${dark ? "text-white/60" : "text-ink-3"}`}>{k.oneTime}</span>
       </div>
       <p className={`mt-3 max-w-[44ch] text-[14px] leading-relaxed ${dark ? "text-white/70" : "text-ink-2"}`}>{k.anchor}</p>
-      <a href={CHECKOUT_URL} className="btn-buy mt-6 w-full sm:w-auto">
+      <BuyLink location={location} lang={lang} className="btn-buy mt-6 w-full sm:w-auto">
         {k.buy}
         <svg aria-hidden width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-      </a>
+      </BuyLink>
       <p className={`mt-3 text-[13px] ${dark ? "text-white/55" : "text-ink-3"}`}>{k.secure}. {k.instant}.</p>
       <div className={`mt-6 flex gap-3 rounded-xl p-4 ${dark ? "bg-white/5 ring-1 ring-white/10" : "bg-brand-soft"}`}>
         <svg aria-hidden className={`shrink-0 ${dark ? "text-brand-bright" : "text-brand"}`} width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2.5l6 2.25v4.5c0 3.9-2.6 6.9-6 8.25-3.4-1.35-6-4.35-6-8.25v-4.5L10 2.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" /><path d="M7.25 10l2 2 3.5-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -62,7 +63,7 @@ export default function PackSales({ lang, showLink = true }: { lang: Lang; showL
               </li>
             )}
           </ul>
-          <div className="rounded-2xl bg-white/[0.04] p-6 ring-1 ring-white/10 sm:p-8"><BuyBox lang={lang} /></div>
+          <div className="rounded-2xl bg-white/[0.04] p-6 ring-1 ring-white/10 sm:p-8"><BuyBox lang={lang} location="home_pack_band" /></div>
         </div>
       </div>
     </section>
