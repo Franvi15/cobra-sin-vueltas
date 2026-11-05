@@ -1264,7 +1264,7 @@ export const longtail: Template[] = [
   "mistakes": [
     "Writing it like a collection notice. Words like \"overdue\" or \"failure to pay\" have no place before the due date.",
     "Mentioning late fees. Save that for after the due date, and only if your contract has one.",
-    "Sending it a week early. It gets forgotten again; two days is close enough to act on.",
+    "Sending it a week early to a regular client. It gets forgotten again; two days is close enough to act on. (First invoices with a new client are the exception.)",
     "Sending it to everyone. Clients who always pay on time can find it slightly patronizing."
   ],
   "faq": [
@@ -1289,7 +1289,7 @@ export const longtail: Template[] = [
   "alt": "pre-due-invoice-reminder",
   "longtail": true,
   "name": "Recordatorio antes del vencimiento",
-  "title": "Recordatorio de pago antes del vencimiento (plantilla para 2 días antes)",
+  "title": "Recordatorio de pago 2 días antes del vencimiento (plantilla)",
   "description": "Un mail amable para mandar dos días antes de que venza una factura: plantilla, una versión corta y cómo evitar que suene a reclamo.",
   "intro": "La mayoría de los atrasos no son clientes que no quieren pagar. La factura quedó en una bandeja, le faltaba una firma o tenía mal la razón social. Un aviso corto dos días antes del vencimiento destraba todo eso a tiempo, y se lee como buena atención, no como persecución.",
   "whenToSend": "Dos días antes del vencimiento, mejor un día hábil a la mañana. Si vence un lunes, mandalo el jueves anterior para que llegue antes del fin de semana. Con los clientes que siempre pagan antes, no hace falta.",
@@ -1308,7 +1308,7 @@ export const longtail: Template[] = [
   "mistakes": [
     "Escribirlo como un reclamo. Palabras como \"deuda\" o \"incumplimiento\" no van antes del vencimiento.",
     "Mencionar recargos por mora. Eso queda para después del vencimiento, y solo si está en el contrato.",
-    "Mandarlo con una semana de anticipación. Se vuelve a olvidar; dos días es lo justo para que actúen.",
+    "Mandárselo con una semana de anticipación a un cliente habitual. Se vuelve a olvidar; dos días es lo justo para que actúen. (La primera factura de un cliente nuevo es la excepción.)",
     "Mandárselo a todos. A los clientes que siempre pagan en fecha les puede caer un poco condescendiente."
   ],
   "faq": [
