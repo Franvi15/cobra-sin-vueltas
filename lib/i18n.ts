@@ -6,7 +6,7 @@ export const dict = {
     nav: { tool: "Generator", pack: "Rescue Pack", templates: "Templates" },
     kicker: "Free collection email generator",
     hero: "Get paid without the awkward follow-ups.",
-    sub: "Enter the invoice once. You get the four emails a collections pro would send on days 3, 7, 14 and 30 after the due date, each dated and ready to send. Nothing you type leaves your browser.",
+    sub: "Enter the invoice once. You get the four emails a collections pro would send on days 3, 7, 14 and 30 after the due date, plus an optional heads-up two days before, each dated and ready to send. Nothing you type leaves your browser.",
     schedule: [
       ["+3", "Reminder with payment details"],
       ["+7", "Ask for a payment date"],
@@ -40,6 +40,7 @@ export const dict = {
     genSub: "Fill in the invoice once. Everything stays in your browser; nothing is stored or sent.",
     tplSub: "The same emails, with placeholders. Copy one and fill it in by hand.",
     stageLabel: "Day",
+    preLabel: "2 days before",
     general: "Any stage",
     readTpl: "Read template",
   },
@@ -48,7 +49,7 @@ export const dict = {
     nav: { tool: "Generador", pack: "Pack de cobro", templates: "Plantillas" },
     kicker: "Cobrá Sin Vueltas, el generador gratis de mails de cobro",
     hero: "Cobrá tus facturas sin incomodidad.",
-    sub: "Cargás la factura una vez y te armamos los cuatro mails que mandaría alguien que cobra para vivir: a los 3, 7, 14 y 30 días del vencimiento, con fecha y listos para enviar. Lo que escribís no sale de tu navegador.",
+    sub: "Cargás la factura una vez y te armamos los cuatro mails que mandaría alguien que cobra para vivir: a los 3, 7, 14 y 30 días del vencimiento, más un aviso opcional dos días antes, con fecha y listos para enviar. Lo que escribís no sale de tu navegador.",
     schedule: [
       ["+3", "Recordatorio con datos de pago"],
       ["+7", "Pedido de fecha de pago"],
@@ -82,6 +83,7 @@ export const dict = {
     genSub: "Cargás la factura una vez. Todo queda en tu navegador; no guardamos ni enviamos nada.",
     tplSub: "Los mismos mails, con campos para completar. Copiá uno y llenalo a mano.",
     stageLabel: "Día",
+    preLabel: "2 días antes",
     general: "Cualquier etapa",
     readTpl: "Ver plantilla",
   },

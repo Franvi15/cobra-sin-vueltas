@@ -1238,5 +1238,93 @@ export const longtail: Template[] = [
       "Cinco a siete para clientes nuevos, dos o tres para habituales."
     ]
   ]
+},
+{
+  "slug": "pre-due-invoice-reminder",
+  "lang": "en",
+  "alt": "recordatorio-de-pago-antes-del-vencimiento",
+  "longtail": true,
+  "name": "Pre-due invoice reminder",
+  "title": "Pre-Due Invoice Reminder Email (Send 2 Days Before)",
+  "description": "A friendly heads-up email to send two days before an invoice is due: template, a shorter variant, and how to keep it from sounding like a collection.",
+  "intro": "Most late payments are not refusals. The invoice sat in someone's inbox, needed a second approval, or had the wrong billing details. A short heads-up two days before the due date catches all of that while there is still time, and it reads as good service, not chasing.",
+  "whenToSend": "Two days before the due date, ideally on a weekday morning. If the due date falls on a Monday, send it the Thursday before so it lands before the weekend. Skip it for clients who always pay early.",
+  "subject": "Heads-up: invoice [INVOICE #] is due [DUE DATE]",
+  "body": "Hi [CLIENT NAME],\n\nQuick heads-up so nothing gets stuck at the last minute: invoice [INVOICE #] for [AMOUNT] is due on [DUE DATE], two days from now.\n\nHere are the details in one place:\n\nAmount: [AMOUNT]\nReference: [INVOICE #]\nPay to: [BANK DETAILS / PAYMENT LINK]\n\nIf it needs someone else to approve it, or you need a PO number or different billing details on the invoice, just let me know and I'll sort it today.\n\nAnd if it's already scheduled, ignore this one. Thanks!\n\n[YOUR NAME]",
+  "tips": [
+    "Keep it under 100 words. It is a courtesy, not a reminder.",
+    "Put the payment details in the body so they can pay straight from the email.",
+    "Ask about approvals and PO numbers now; that is where most late payments start."
+  ],
+  "variant": {
+    "label": "Two-line version for regular clients",
+    "subject": "Invoice [INVOICE #] due [DUE DATE]",
+    "body": "Hi [CLIENT NAME],\n\nJust a heads-up that invoice [INVOICE #] ([AMOUNT]) is due on [DUE DATE]. Payment link is here if handy: [LINK].\n\nThanks!\n[YOUR NAME]"
+  },
+  "mistakes": [
+    "Writing it like a collection notice. Words like \"overdue\" or \"failure to pay\" have no place before the due date.",
+    "Mentioning late fees. Save that for after the due date, and only if your contract has one.",
+    "Sending it a week early. It gets forgotten again; two days is close enough to act on.",
+    "Sending it to everyone. Clients who always pay on time can find it slightly patronizing."
+  ],
+  "faq": [
+    [
+      "Is it rude to remind a client before an invoice is due?",
+      "No, if it is short and friendly. Framed as a heads-up with the payment details, most clients read it as helpful, and finance teams appreciate it."
+    ],
+    [
+      "How many days before the due date should I send it?",
+      "Two to three days. Close enough to be acted on, early enough to fix a wrong PO number or billing entity."
+    ],
+    [
+      "What if they already paid?",
+      "The email already says to ignore it in that case. Thank them when the payment lands and move on."
+    ]
+  ],
+  "stage": -2
+},
+{
+  "slug": "recordatorio-de-pago-antes-del-vencimiento",
+  "lang": "es",
+  "alt": "pre-due-invoice-reminder",
+  "longtail": true,
+  "name": "Recordatorio antes del vencimiento",
+  "title": "Recordatorio de pago antes del vencimiento (plantilla para 2 días antes)",
+  "description": "Un mail amable para mandar dos días antes de que venza una factura: plantilla, una versión corta y cómo evitar que suene a reclamo.",
+  "intro": "La mayoría de los atrasos no son clientes que no quieren pagar. La factura quedó en una bandeja, le faltaba una firma o tenía mal la razón social. Un aviso corto dos días antes del vencimiento destraba todo eso a tiempo, y se lee como buena atención, no como persecución.",
+  "whenToSend": "Dos días antes del vencimiento, mejor un día hábil a la mañana. Si vence un lunes, mandalo el jueves anterior para que llegue antes del fin de semana. Con los clientes que siempre pagan antes, no hace falta.",
+  "subject": "Aviso: la factura [N.º DE FACTURA] vence el [FECHA DE VENCIMIENTO]",
+  "body": "Hola [NOMBRE DEL CLIENTE],\n\nTe escribo para que no se nos pase: la factura [N.º DE FACTURA] por [MONTO] vence el [FECHA DE VENCIMIENTO], en dos días.\n\nTe dejo los datos juntos así queda a mano:\n\nMonto: [MONTO]\nReferencia: [N.º DE FACTURA]\nCuenta: [CBU / ALIAS / LINK DE PAGO]\n\nSi la tiene que aprobar otra persona, o necesitás que figure una orden de compra u otra razón social, avisame y la corrijo hoy mismo.\n\nY si ya está programado el pago, ignorá este mensaje. ¡Gracias!\n\n[TU NOMBRE]",
+  "tips": [
+    "Menos de 100 palabras. Es una cortesía, no un reclamo.",
+    "Poné los datos de pago en el cuerpo para que puedan pagar desde el mail.",
+    "Preguntá por aprobaciones y órdenes de compra ahora; ahí empiezan casi todos los atrasos."
+  ],
+  "variant": {
+    "label": "Versión de dos líneas para clientes habituales",
+    "subject": "Factura [N.º DE FACTURA], vence el [FECHA DE VENCIMIENTO]",
+    "body": "Hola [NOMBRE DEL CLIENTE],\n\nTe aviso que la factura [N.º DE FACTURA] ([MONTO]) vence el [FECHA DE VENCIMIENTO]. Te dejo el link por si te sirve: [LINK].\n\n¡Gracias!\n[TU NOMBRE]"
+  },
+  "mistakes": [
+    "Escribirlo como un reclamo. Palabras como \"deuda\" o \"incumplimiento\" no van antes del vencimiento.",
+    "Mencionar recargos por mora. Eso queda para después del vencimiento, y solo si está en el contrato.",
+    "Mandarlo con una semana de anticipación. Se vuelve a olvidar; dos días es lo justo para que actúen.",
+    "Mandárselo a todos. A los clientes que siempre pagan en fecha les puede caer un poco condescendiente."
+  ],
+  "faq": [
+    [
+      "¿Queda mal recordarle a un cliente antes de que venza la factura?",
+      "No, si es corto y amable. Planteado como un aviso con los datos de pago, la mayoría lo toma como una ayuda, y las áreas de administración lo agradecen."
+    ],
+    [
+      "¿Cuántos días antes del vencimiento conviene mandarlo?",
+      "Dos o tres días. Lo bastante cerca para que lo resuelvan y con margen para corregir una orden de compra o la razón social."
+    ],
+    [
+      "¿Y si ya me pagaron?",
+      "El mail ya dice que lo ignoren en ese caso. Cuando entre el pago, agradecé y listo."
+    ]
+  ],
+  "stage": -2
 }
 ];

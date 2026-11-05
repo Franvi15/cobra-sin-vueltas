@@ -21,6 +21,7 @@ export interface GeneratedEmail {
 }
 
 export const OFFSETS = [3, 7, 14, 30] as const;
+export const PRE_OFFSET = -2;
 
 function parseDate(iso: string): Date {
   const [y, m, d] = iso.split("-").map(Number);
@@ -181,7 +182,30 @@ const ES: Stage[] = [
   },
 ];
 
-export function generateEmails(input: EmailInput, lang: Lang): GeneratedEmail[] {
+const PRE_EN: Stage = {
+  subject: (x) => `Heads-up: invoice ${x.n} is due ${x.due}`,
+  body: (x) => lines(
+    `Hi ${x.c},`,
+    `Quick heads-up so nothing gets stuck at the last minute: invoice ${x.n} for ${x.a} is due on ${x.due}, two days from now.`,
+    `Here are the details in one place:\n\nAmount: ${x.a}\nReference: ${x.n}\nPay to: ${x.pay || "details on the invoice (attached again)"}`,
+    "If it needs someone else to approve it, or you need a PO number or different billing details on the invoice, just let me know and I'll sort it today.",
+    "And if it's already scheduled, ignore this one. Thanks!",
+    x.me,
+  ),
+};
+const PRE_ES: Stage = {
+  subject: (x) => `Aviso: la factura ${x.n} vence el ${x.due}`,
+  body: (x) => lines(
+    `Hola ${x.c},`,
+    `Te escribo para que no se nos pase: la factura ${x.n} por ${x.a} vence el ${x.due}, en dos días.`,
+    `Te dejo los datos juntos así queda a mano:\n\nMonto: ${x.a}\nReferencia: ${x.n}\nCuenta: ${x.pay || "los datos están en la factura (te la adjunto de nuevo)"}`,
+    "Si la tiene que aprobar otra persona, o necesitás que figure una orden de compra u otra razón social, avisame y la corrijo hoy mismo.",
+    "Y si ya está programado el pago, ignorá este mensaje. ¡Gracias!",
+    x.me,
+  ),
+};
+
+export function generateEmails(input: EmailInput, lang: Lang, opts: { predue?: boolean } = {}): GeneratedEmail[] {
   const stages = lang === "es" ? ES : EN;
   const d = (o: number) => formatDate(addDays(input.dueDate, o), lang);
   const ctx: Ctx = {
@@ -195,12 +219,14 @@ export function generateEmails(input: EmailInput, lang: Lang): GeneratedEmail[] 
     due: d(0),
     d,
   };
-  return OFFSETS.map((offset, i) => ({
+  const list = OFFSETS.map((offset, i) => ({ offset: offset as number, stage: stages[i] }));
+  if (opts.predue) list.unshift({ offset: PRE_OFFSET, stage: lang === "es" ? PRE_ES : PRE_EN });
+  return list.map(({ offset, stage }) => ({
     offset,
     sendDate: d(offset),
     sendIso: isoOf(addDays(input.dueDate, offset)),
-    subject: stages[i].subject(ctx),
-    body: stages[i].body(ctx),
+    subject: stage.subject(ctx),
+    body: stage.body(ctx),
   }));
 }
 

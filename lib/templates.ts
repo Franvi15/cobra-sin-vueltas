@@ -319,3 +319,6 @@ export const allTemplates: Template[] = [...templates, ...longtail];
 export const getTemplate = (slug: string) => allTemplates.find((t) => t.slug === slug);
 export const longtailEn = () => longtail.filter((t) => t.lang === "en");
 export const guides = (lang: Lang) => longtail.filter((t) => t.lang === lang);
+
+export const stageText = (stage: number | undefined, d: { stageLabel: string; preLabel: string; general: string }) =>
+  stage === -2 ? d.preLabel : stage ? `${d.stageLabel} ${stage}` : d.general;

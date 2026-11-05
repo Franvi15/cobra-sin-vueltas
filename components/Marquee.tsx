@@ -1,3 +1,4 @@
+import { stageText } from "@/lib/templates";
 import Link from "next/link";
 import type { Lang } from "@/lib/site";
 import { templates } from "@/lib/templates";
@@ -26,7 +27,7 @@ export default function Marquee({ lang }: { lang: Lang }) {
                 <Link href={`/templates/${x.slug}`} tabIndex={i >= tpls.length ? -1 : 0}
                   className="group block h-full rounded-2xl border border-line bg-white p-5 shadow-card transition duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-lift">
                   <div className="flex items-center justify-between text-[12px]">
-                    <span className="font-semibold text-brand">{x.stage ? `${d.stageLabel} ${x.stage}` : d.general}</span>
+                    <span className="font-semibold text-brand">{stageText(x.stage, d)}</span>
                     <span className={tone === "final" ? "font-medium text-coral-ink" : "text-ink-3"}>{k.tones[tone]}</span>
                   </div>
                   <p className="mt-3 line-clamp-1 text-[15px] font-semibold tracking-heading text-ink">{x.subject}</p>

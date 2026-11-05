@@ -1,3 +1,4 @@
+import { stageText } from "@/lib/templates";
 import type { Lang } from "@/lib/site";
 import { t } from "@/lib/i18n";
 import { c, toneForStage } from "@/lib/copy";
@@ -103,7 +104,7 @@ export default function Home({ lang }: { lang: Lang }) {
                 <Reveal as="li" key={x.slug} delay={(i % 3) * 80}>
                   <Link href={`/templates/${x.slug}`} className="group flex h-full flex-col rounded-2xl border border-line bg-white p-6 shadow-card transition duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-lift">
                     <div className="flex items-center justify-between text-[12.5px]">
-                      <span className="font-semibold text-brand">{x.stage ? `${d.stageLabel} ${x.stage}` : d.general}</span>
+                      <span className="font-semibold text-brand">{stageText(x.stage, d)}</span>
                       <span className={tone === "final" ? "font-medium text-coral-ink" : "text-ink-3"}>{k.tones[tone]}</span>
                     </div>
                     <h3 className="mt-4 text-[19px] font-semibold tracking-heading text-ink">{x.name}</h3>

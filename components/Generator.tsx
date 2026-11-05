@@ -9,7 +9,7 @@ import BuyLink from "./BuyLink";
 const CURRENCIES = ["USD", "EUR", "ARS", "GBP", "MXN", "CLP", "COP", "UYU", "BRL", "CAD", "AUD"];
 const DAYS = [3, 7, 14, 30];
 
-export default function Generator({ lang, ctaLocation = "generator_result" }: { lang: Lang; ctaLocation?: string }) {
+export default function Generator({ lang, ctaLocation = "generator_result", defaultPredue = false }: { lang: Lang; ctaLocation?: string; defaultPredue?: boolean }) {
   const d = t(lang);
   const es = lang === "es";
   const [f, setF] = useState({
@@ -17,18 +17,25 @@ export default function Generator({ lang, ctaLocation = "generator_result" }: { 
     dueDate: "2026-10-20", yourName: es ? "Sofi Pérez" : "Alex Rivera", tone: "friendly" as Tone, paymentDetails: "", lateFee: es ? "3% mensual" : "1.5% per month",
   });
   const [submitted, setSubmitted] = useState(true);
+  const [predue, setPredue] = useState(defaultPredue);
   const [active, setActive] = useState(0);
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setF((p) => ({ ...p, [k]: e.target.value }));
 
   const emails = useMemo(() => {
     if (!submitted || !f.dueDate) return [];
-    return generateEmails({ ...f, amount: parseFloat(f.amount) || 0 }, lang);
-  }, [f, submitted, lang]);
+    return generateEmails({ ...f, amount: parseFloat(f.amount) || 0 }, lang, { predue });
+  }, [f, submitted, lang, predue]);
+  const offsets = predue ? [-2, ...DAYS] : DAYS;
+  const stageNames = predue ? [es ? "Aviso previo" : "Heads-up", ...d.out.stage] : d.out.stage;
+  const countLabel = predue
+    ? (es ? "1 recordatorio previo + 4 seguimientos" : "1 pre-due reminder + 4 follow-ups")
+    : (es ? "4 seguimientos" : "4 follow-ups");
   const em = emails[active];
   useEffect(() => {
     const dt = new Date(); dt.setDate(dt.getDate() - 16);
     setF((p) => ({ ...p, dueDate: dt.toISOString().slice(0, 10) }));
+    if (new URLSearchParams(window.location.search).get("predue") === "1") setPredue(true);
   }, []);
 
   return (
@@ -89,20 +96,31 @@ export default function Generator({ lang, ctaLocation = "generator_result" }: { 
               ))}
             </div>
           </fieldset>
+          <div className="sm:col-span-2">
+            <label htmlFor="predue" className="flex cursor-pointer items-start gap-3 rounded-lg border border-line-strong bg-white p-3.5 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand">
+              <input id="predue" type="checkbox" role="switch" aria-checked={predue} checked={predue}
+                onChange={(e) => { setPredue(e.target.checked); setActive(0); }} className="peer sr-only" />
+              <span aria-hidden className={`relative mt-0.5 h-5 w-9 shrink-0 rounded-full transition ${predue ? "bg-night" : "bg-line-strong"}`}>
+                <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-all ${predue ? "left-[18px]" : "left-0.5"}`} />
+              </span>
+              <span className="text-[14px] leading-snug text-ink">{es ? "También generar un recordatorio 2 días antes del vencimiento" : "Also generate a pre-due reminder (2 days before due)"}</span>
+            </label>
+          </div>
         </div>
         <button type="submit" className="btn-primary mt-7 h-12 w-full text-[16px]">{d.form.generate}</button>
       </form>
 
       <div id="preview" className="flex min-w-0 scroll-mt-20 flex-col">
-        <div role="tablist" aria-label={d.out.title} className="grid grid-cols-4 gap-1.5 border-b border-line bg-white p-3 sm:p-4">
-          {DAYS.map((n, i) => {
+        <p className="bg-white px-4 pt-3 text-[13px] font-medium text-ink-2 sm:px-5" aria-live="polite">{countLabel}</p>
+        <div role="tablist" aria-label={d.out.title} className={`grid ${predue ? "grid-cols-5" : "grid-cols-4"} gap-1.5 border-b border-line bg-white p-3 sm:p-4`}>
+          {offsets.map((n, i) => {
             const on = emails.length > 0 && active === i;
             return (
               <button key={n} role="tab" type="button" aria-selected={on} disabled={!emails.length}
                 onClick={() => setActive(i)}
                 className={`rounded-lg px-2.5 py-2 text-left transition sm:px-3 ${on ? "bg-night text-white shadow-lift" : "text-ink-2 hover:bg-well"} disabled:cursor-default`}>
-                <span className={`block text-[12px] font-semibold tabular-nums ${on ? (n === 30 ? "text-coral" : "text-brand-mint") : n === 30 ? "text-coral-ink" : "text-brand"}`}>{d.stageLabel} {n}</span>
-                <span className="mt-0.5 hidden truncate text-[13px] font-medium sm:block">{d.out.stage[i]}</span>
+                <span className={`block text-[12px] font-semibold tabular-nums ${on ? (n === 30 ? "text-coral" : "text-brand-mint") : n === 30 ? "text-coral-ink" : "text-brand"}`}>{n < 0 ? (es ? "2 días antes" : "2 days before") : `${d.stageLabel} ${n}`}</span>
+                <span className="mt-0.5 hidden truncate text-[13px] font-medium sm:block">{stageNames[i]}</span>
                 <span className={`hidden truncate text-[11.5px] tabular-nums sm:block ${on ? "text-white/60" : "text-ink-3"}`}>{emails[i]?.sendDate ?? "..."}</span>
               </button>
             );
@@ -122,7 +140,7 @@ export default function Generator({ lang, ctaLocation = "generator_result" }: { 
           )}
           {em && (
             <div className="flex flex-col gap-3 border-t border-line bg-[#FBFAF7] px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-              <p className="text-[13px] text-ink-3">{es ? `Mail ${active + 1} de 4` : `Email ${active + 1} of 4`}</p>
+              <p className="text-[13px] text-ink-3">{es ? `Mail ${active + 1} de ${emails.length}` : `Email ${active + 1} of ${emails.length}`}</p>
               <div className="flex gap-2">
                 <a href={mailtoHref(em.subject, em.body)} className="btn-secondary flex-1 sm:flex-none">
                   <svg aria-hidden width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3.5" width="12" height="9" rx="1.75" stroke="currentColor" strokeWidth="1.4" /><path d="M2.5 4.5L8 8.5l5.5-4" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" /></svg>

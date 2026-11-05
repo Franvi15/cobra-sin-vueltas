@@ -1,3 +1,4 @@
+import { stageText } from "@/lib/templates";
 import Link from "next/link";
 import { allTemplates, templates, tplPath, type Template } from "@/lib/templates";
 import Header from "./Header";
@@ -37,6 +38,7 @@ export default function TemplateView({ tpl }: { tpl: Template }) {
   const related = [...pool.slice(start), ...pool.slice(0, start)].slice(0, 6);
   const core = templates.filter((x) => x.lang === tpl.lang).slice(0, 3);
   const tone = toneForStage(tpl.stage);
+  const pre = tpl.stage === -2;
   const faqLd = tpl.faq?.length
     ? { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: tpl.faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }
     : null;
@@ -55,7 +57,7 @@ export default function TemplateView({ tpl }: { tpl: Template }) {
               <Link href={`${es ? "/es" : "/"}#templates`} className="hover:text-white">{d.nav.templates}</Link>
             </nav>
             <div className="mt-10 flex flex-wrap items-center gap-3 text-[13px]">
-              <span className="font-semibold text-brand-mint">{tpl.stage ? `${d.stageLabel} ${tpl.stage}` : d.general}</span>
+              <span className="font-semibold text-brand-mint">{stageText(tpl.stage, d)}</span>
               <span className={tone === "final" ? "text-coral" : "text-white/55"}>{k.tones[tone]}</span>
             </div>
             <h1 className="h-display mt-4 max-w-[22ch] text-[36px] sm:text-[54px]">{tpl.title}</h1>
@@ -127,9 +129,16 @@ export default function TemplateView({ tpl }: { tpl: Template }) {
         </div>
 
         <section id="generator" className="container-x mt-24 scroll-mt-16">
-          <h2 className="h-section">{es ? "Generá los 4 mails con tus datos" : "Generate all 4 emails with your details"}</h2>
+          <h2 className="h-section">{pre ? (es ? "Generá el aviso previo y los 4 mails con tus datos" : "Generate the heads-up and all 4 follow-ups") : es ? "Generá los 4 mails con tus datos" : "Generate all 4 emails with your details"}</h2>
           <p className="mt-3 max-w-[60ch] text-[16.5px] text-ink-2">{es ? "Gratis, sin cuenta. Fechas calculadas desde el vencimiento." : "Free, no account. Dates calculated from the due date."}</p>
-          <div className="mt-10"><Generator lang={tpl.lang} ctaLocation="template_generator_result" /></div>
+          <div className="mt-10"><Generator lang={tpl.lang} ctaLocation="template_generator_result" defaultPredue={pre} /></div>
+          {pre && (
+            <p className="mt-6 text-[15px] text-ink-2">
+              <Link href={es ? "/es?predue=1#generator" : "/?predue=1#generator"} className="font-semibold text-brand underline underline-offset-4 hover:text-ink">
+                {es ? "Abrir el generador completo con el aviso previo activado" : "Open the full generator with the pre-due reminder on"}
+              </Link>
+            </p>
+          )}
         </section>
 
         <section className="container-x mt-24">
@@ -138,7 +147,7 @@ export default function TemplateView({ tpl }: { tpl: Template }) {
             {[...core.filter((x) => x.slug !== tpl.slug), ...related].filter((x, i, a) => a.findIndex((y) => y.slug === x.slug) === i).slice(0, 6).map((r) => (
               <li key={r.slug}>
                 <Link href={tplPath(r)} className="group flex h-full flex-col rounded-2xl border border-line bg-white p-6 shadow-card transition duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-lift">
-                  <span className="text-[12.5px] font-semibold text-brand">{r.stage ? `${d.stageLabel} ${r.stage}` : d.general}</span>
+                  <span className="text-[12.5px] font-semibold text-brand">{stageText(r.stage, d)}</span>
                   <span className="mt-3 text-[17px] font-semibold tracking-heading text-ink">{r.name}</span>
                   <span className="mt-2 line-clamp-2 text-[14px] text-ink-2">{r.subject}</span>
                   <span className="mt-auto pt-4 text-[14px] font-semibold text-brand">{d.readTpl} <span aria-hidden className="inline-block transition-transform group-hover:translate-x-1">&rarr;</span></span>

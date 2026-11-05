@@ -5,7 +5,7 @@ export const copy = {
   en: {
     heroKicker: "Invoice collection emails for freelancers",
     heroTitle: ["Late invoice?", "Get paid without", "the awkward chase."],
-    heroSub: "Four follow-up emails, written the way a collections desk writes them, dated for days 3, 7, 14 and 30 after the due date. Free, in your browser, ready to send.",
+    heroSub: "Four follow-up emails, written the way a collections desk writes them, dated for days 3, 7, 14 and 30 after the due date, plus an optional friendly heads-up two days before. Free, in your browser, ready to send.",
     heroCta: "Write my follow-ups, free",
     buy: "Get the pack, $19",
     heroNote: "No sign-up. Nothing you type leaves your browser.",
@@ -53,7 +53,7 @@ export const copy = {
   es: {
     heroKicker: "Mails de cobranza para freelancers",
     heroTitle: ["¿Factura vencida?", "Cobrala sin", "perseguir a nadie."],
-    heroSub: "Cuatro mails de seguimiento, escritos como los escribe un área de cobranzas, con fecha para los días 3, 7, 14 y 30 del vencimiento. Gratis, en tu navegador, listos para mandar.",
+    heroSub: "Cuatro mails de seguimiento, escritos como los escribe un área de cobranzas, con fecha para los días 3, 7, 14 y 30 del vencimiento, más un aviso amable opcional dos días antes. Gratis, en tu navegador, listos para mandar.",
     heroCta: "Armar mis mails gratis",
     buy: "Comprar el pack, USD 19",
     heroNote: "Sin registro. Lo que escribís no sale de tu navegador.",
