@@ -22,9 +22,10 @@ export const dict = {
       ph: { client: "Acme Studio", invoice: "INV-0042", you: "Alex Rivera", pay: "Wise / IBAN / payment link", fee: "1.5% per month" },
     },
     out: {
-      title: "Follow-up schedule", day: "Day", send: "Send", copy: "Copy", copied: "Copied",
-      open: "Open in mail", empty: "Fill in the invoice details. The four emails appear here with their send dates.",
+      title: "Follow-up schedule", day: "Day", send: "Send", copy: "Copy this email", copied: "Copied",
+      open: "Open in email", empty: "Fill in the invoice details. The four emails appear here with their send dates.",
       subject: "Subject", stage: ["Reminder", "Follow-up", "Firm request", "Final notice"],
+      copyAll4: "Copy all 4 emails", copyAll5: "Copy all 5 emails", copyAllDone: "Copied",
     },
     cta: {
       kicker: "Late Payment Rescue Pack, $19",
@@ -65,9 +66,10 @@ export const dict = {
       ph: { client: "Estudio Acme", invoice: "FC-0042", you: "Sofi Pérez", pay: "Alias, CBU o link de pago", fee: "3% mensual" },
     },
     out: {
-      title: "Cronograma de seguimiento", day: "Día", send: "Enviar", copy: "Copiar", copied: "Copiado",
-      open: "Abrir en el mail", empty: "Completá los datos de la factura. Los cuatro mails aparecen acá con su fecha de envío.",
+      title: "Cronograma de seguimiento", day: "Día", send: "Enviar", copy: "Copiar este mail", copied: "Copiado",
+      open: "Abrir en el correo", empty: "Completá los datos de la factura. Los cuatro mails aparecen acá con su fecha de envío.",
       subject: "Asunto", stage: ["Recordatorio", "Seguimiento", "Pedido firme", "Último aviso"],
+      copyAll4: "Copiar los 4 mails", copyAll5: "Copiar los 5 mails", copyAllDone: "Copiado",
     },
     cta: {
       kicker: "Pack de Rescate de Cobros, USD 19",

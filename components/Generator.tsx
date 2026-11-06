@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Lang } from "@/lib/site";
 import { t } from "@/lib/i18n";
-import { generateEmails, mailtoHref, type Tone } from "@/lib/emails";
+import { generateEmails, mailtoHref, formatEmailsForCopy, type Tone } from "@/lib/emails";
 import CopyButton from "./CopyButton";
 import BuyLink from "./BuyLink";
 
@@ -141,17 +141,41 @@ export default function Generator({ lang, ctaLocation = "generator_result", defa
           {em && (
             <div className="flex flex-col gap-3 border-t border-line bg-[#FBFAF7] px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8">
               <p className="text-[13px] text-ink-3">{es ? `Mail ${active + 1} de ${emails.length}` : `Email ${active + 1} of ${emails.length}`}</p>
-              <div className="flex gap-2">
-                <a href={mailtoHref(em.subject, em.body)} className="btn-secondary flex-1 sm:flex-none">
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <a href={mailtoHref(em.subject, em.body)} className="btn-secondary min-h-11 flex-1 sm:flex-none">
                   <svg aria-hidden width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3.5" width="12" height="9" rx="1.75" stroke="currentColor" strokeWidth="1.4" /><path d="M2.5 4.5L8 8.5l5.5-4" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" /></svg>
                   {d.out.open}
                 </a>
-                <CopyButton className="btn-primary flex-1 sm:flex-none" text={`${d.out.subject}: ${em.subject}\n\n${em.body}`} label={d.out.copy} copiedLabel={d.out.copied} />
+                <CopyButton className="btn-primary min-h-11 flex-1 sm:flex-none" text={`${d.out.subject}: ${em.subject}\n\n${em.body}`} label={d.out.copy} copiedLabel={d.out.copied} />
               </div>
             </div>
           )}
         </article>
       </div>
+
+      {emails.length > 0 && (
+        <div className="border-t border-line bg-white px-6 py-4 sm:px-8 lg:col-span-2">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-[14px] text-ink-2">
+              {es
+                ? "Copiá la secuencia completa o abrí el mail activo en tu correo."
+                : "Copy the full sequence, or open the active email in your mail app."}
+            </p>
+            <CopyButton
+              className="btn-secondary min-h-11 w-full sm:w-auto"
+              text={formatEmailsForCopy(emails, {
+                subjectLabel: d.out.subject,
+                stageNames: [...stageNames],
+                stageLabel: d.stageLabel,
+                preLabel: d.preLabel,
+                lang,
+              })}
+              label={emails.length >= 5 ? d.out.copyAll5 : d.out.copyAll4}
+              copiedLabel={d.out.copyAllDone}
+            />
+          </div>
+        </div>
+      )}
 
       {emails.length > 0 && (
         <section aria-labelledby="rescue-h" className="border-t border-line bg-night px-6 py-8 text-white sm:px-8 sm:py-10 lg:col-span-2">

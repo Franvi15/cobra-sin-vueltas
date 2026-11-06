@@ -230,6 +230,42 @@ export function generateEmails(input: EmailInput, lang: Lang, opts: { predue?: b
   }));
 }
 
-export function mailtoHref(subject: string, body: string): string {
-  return `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+/** Build a mailto URL. Soft cap so desktop and mobile clients still open it. */
+export function mailtoHref(subject: string, body: string, maxLen = 1800): string {
+  const encSubject = encodeURIComponent(subject);
+  const prefix = `mailto:?subject=${encSubject}&body=`;
+  const encBody = encodeURIComponent(body);
+  if (prefix.length + encBody.length <= maxLen) return prefix + encBody;
+  const cutNote = "\n\n[Email shortened for the mail client. Use Copy on the site for the full text.]";
+  const budget = Math.max(0, maxLen - prefix.length - encodeURIComponent(cutNote).length);
+  let lo = 0, hi = body.length, best = "";
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    const slice = body.slice(0, mid);
+    if (encodeURIComponent(slice).length <= budget) {
+      best = slice;
+      lo = mid + 1;
+    } else {
+      hi = mid - 1;
+    }
+  }
+  const breakAt = Math.max(best.lastIndexOf("\n\n"), best.lastIndexOf("\n"));
+  if (breakAt > 40) best = best.slice(0, breakAt);
+  return prefix + encodeURIComponent(best + cutNote);
+}
+
+/** Plain-text dump of every generated email for clipboard. */
+export function formatEmailsForCopy(
+  emails: GeneratedEmail[],
+  opts: { subjectLabel: string; stageNames: string[]; stageLabel: string; preLabel: string; lang: Lang },
+): string {
+  const ofWord = opts.lang === "es" ? "DE" : "OF";
+  const kind = opts.lang === "es" ? "MAIL" : "EMAIL";
+  return emails.map((em, i) => {
+    const stage = opts.stageNames[i] ?? "";
+    const when = em.offset < 0 ? opts.preLabel : `${opts.stageLabel} ${em.offset}`;
+    const header = `${kind} ${i + 1} ${ofWord} ${emails.length} | ${when} | ${stage} | ${em.sendDate}`;
+    const rule = "-".repeat(Math.min(header.length, 48));
+    return `${rule}\n${header}\n${rule}\n${opts.subjectLabel}: ${em.subject}\n\n${em.body}`;
+  }).join("\n\n\n");
 }
